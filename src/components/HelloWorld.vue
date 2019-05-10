@@ -52,13 +52,20 @@
       <el-main>
         <div class='main'>
           <!--标签页-->
-          <el-tabs v-model="activeName" @tab-click="handleClick"> 
+          <el-tabs v-model="activeName" @tab-click="changerev"> 
             <el-tab-pane label="未完成预约" name="first">
               <!--未完成预约头部-->
               <div style="text-align:left;">
                 <span style="color:#373737; font-size:25px;margin-left:25px;">未完成预约</span>
                 <span style="color:#7A7B7B; font-size:17px; padding: 18px 5px 20px 5px;">Appointment</span>
                 <i class="iconfont icon-jia" style="color:#22B8EB; font-size:25px; padding-left:5px; cursor:pointer;"></i>
+              </div>
+              <div>
+                <el-input
+                  v-model="search"
+                  id="search_vsname"
+                  size="mini"
+                  placeholder="输入关键字搜索"/>
               </div>
               <!--未完成预约表格-->
               <div style="margin:80px 35px 0 25px; height:100%">
@@ -122,10 +129,7 @@
                     </el-table-column>   
                     <el-table-column label="操作" fixed="right">
                         <el-button
-                          class="listbutton"                       
-                          @click="handleEdit(scope.$index, scope.row)">查看</el-button>
-                        <el-button
-                          size="mini"
+                          class="listbutton"
                           @click="handleDelete(scope.$index, scope.row)">编辑</el-button>                  
                     </el-table-column>                                                                                    
                   </el-table>                                
@@ -151,7 +155,29 @@ export default {
         /* 进入页面时默认进入未完成预约标签页 */
         activeName: 'first',
         /* 未完成预约列表数据 */
-        UNFreservation: [{
+        tableData: [{
+          reserve_time: '2016-05-02  16:00~17:00',
+          room: '咨询室',
+          counselor: '陈七',
+          entry_pereson: '琪琪',
+          visitor_name: '李四',
+          visitor_sex: '男',
+          visitor_phone: '13466763626',
+          birthday: '1993-09-27',
+          consult_times: '2',
+          entry_time: '2016-05-02 16:30:27',
+        },{
+          reserve_time: '2016-05-02  16:00~17:00',
+          room: '咨询室',
+          counselor: '陈七',
+          entry_pereson: '琪琪',
+          visitor_name: '王五',
+          visitor_sex: '男',
+          visitor_phone: '13466763626',
+          birthday: '1993-09-27',
+          consult_times: '2',
+          entry_time: '2016-05-02 16:30:27',
+        },{
           reserve_time: '2016-05-02  16:00~17:00',
           room: '咨询室',
           counselor: '陈七',
@@ -162,7 +188,8 @@ export default {
           birthday: '1993-09-27',
           consult_times: '2',
           entry_time: '2016-05-02 16:30:27',
-        }]
+        }],
+        search:''
       }
     },
     methods: {
@@ -172,10 +199,25 @@ export default {
       handleDelete(index, row) {
 
       },
-      handleClick(tab, event) {
+      changerev(tab, event) {
 
       }
-    }
+    },
+    computed:{
+      UNFreservation:function(){
+        var search=this.search;
+        console.log(search)
+        if(search){
+          return  this.tableData.filter(function(dataNews){
+            console.log(dataNews)
+            return Object.keys(dataNews).some(function(key){
+              return String(visitor_name[key]).toLowerCase().includes(search_vsname.value.toLowerCase())
+            })
+          })
+        }
+        return this.tableData
+      }
+    }    
   }  
 </script>
 
@@ -286,17 +328,64 @@ export default {
     background-color: #F0F0F0;
     z-index:1;
   }
+  
   .el-table{
     position:relative; 
     overflow:hidden;
     box-sizing:border-box;
     height:100%;
   }  
-  .el-table{
-    position:relative; 
-    overflow:hidden;
-    box-sizing:border-box;
-    height:100%;    
+  .listbutton{
+    display: inline-block;
+    line-height:1;
+    white-space:nowrap;
+    cursor:pointer;
+    box-sizing: border-box;
+    outline: 0;
+    margin: 0;
+    text-align: center;
+    vertical-align: center;
+    background-color: #22B8EB;
+    color:#fff;
+    border: 1px solid #22B8EB;
+    margin-left: 5px;
+    padding: 7px 15px;
+    font-size: 12px;
+
+  }
+  .listbutton:hover,.listbutton:focus{
+    background-color:#fff;
+    color:#22B8EB;
+    border: 1px solid #22B8EB;
+    display: inline-block;
+    line-height:1;
+    white-space:nowrap;
+    cursor:pointer;
+    box-sizing: border-box;
+    outline: 0;
+    margin: 0;
+    text-align: center;
+    vertical-align: center;
+    margin-left: 5px;
+    padding: 7px 15px;
+    font-size: 12px;
+  }
+  .listbutton:active{
+    background-color:#fff;
+    color:#555555;
+    border: 1px solid #555555;
+    display: inline-block;
+    line-height:1;
+    white-space:nowrap;
+    cursor:pointer;
+    box-sizing: border-box;
+    outline: 0;
+    margin: 0;
+    text-align: center;
+    vertical-align: center;
+    margin-left: 5px;
+    padding: 7px 15px;
+    font-size: 12px;
   }
 
 </style>
