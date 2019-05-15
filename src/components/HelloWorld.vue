@@ -99,10 +99,7 @@
                   v-model="search_visitor_name"/>
                 <span class="searchfont">来访者电话</span>                                          
                 <el-input
-                  v-model="search_visitor_phone"/>
-                <span class="searchfont">预约时间</span>                                          
-                <el-input
-                  v-model="search_entry_time"/>                                
+                  v-model="search_visitor_phone"/>                              
               </div>
               <!--未完成预约表格-->
               <div style="margin:0 35px 0 25px; height:100%;" >
@@ -110,81 +107,74 @@
                 <el-table
                     :data="UNFreservation.filter(data => (
                     !search_reserve_time 
-                    &&(!value1
-                    ||(new Date('2019-09-13 08:00:00').getTime()>=value1[0].getTime())
-                    &&(new Date('2019-09-13 08:00:00').getTime()<=value1[1].getTime())))
+                    &&(value1.length == 0
+                        ||(new Date(data.reserve_date+' '+data.reserve_time_start) >= value1[0]
+                            &&new Date(data.reserve_date+' '+data.reserve_time_end) <= value1[1]))                   
                     &&(!search_room
-                    ||data.room.toLowerCase().includes(search_room.toLowerCase()))
+                        ||data.room.toLowerCase().includes(search_room.toLowerCase()))
                     &&(!search_visitor_name
-                    ||data.visitor_name.toLowerCase().includes(search_visitor_name.toLowerCase()))
+                      ||data.visitor_name.toLowerCase().includes(search_visitor_name.toLowerCase()))
                     &&(!search_conselor
-                    ||data.conselor.toLowerCase().includes(search_conselor.toLowerCase()))
+                        ||data.conselor.toLowerCase().includes(search_conselor.toLowerCase()))
                     &&(!search_entry_pereson 
-                    ||data.entry_pereson.toLowerCase().includes(search_entry_pereson.toLowerCase()))
+                        ||data.entry_pereson.toLowerCase().includes(search_entry_pereson.toLowerCase()))
                     &&(!search_visitor_phone
-                    ||data.visitor_phone.toLowerCase().includes(search_visitor_phone.toLowerCase()))
-                    &&(!search_entry_time
-                    ||data.entry_time.toLowerCase().includes(search_entry_time.toLowerCase())))"
+                        ||data.visitor_phone.toLowerCase().includes(search_visitor_phone.toLowerCase()))))"
                     border
-                    :default-sort = "{prop: 'reserve_time', order: 'descending'}"
+                    :default-sort = "{prop: 'scope', order: 'descending'}"
+                    stripe
                     >
                     <el-table-column
                       type="index"
-                      width="50">
+                      width="50"
+                      align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="reserve_time"
                       label="咨询时间"
                       sortable
-                      width="220">
+                      width="300">
+                      <template slot-scope="scope">
+                        <span style="margin-left: 10px">
+                          {{ scope.row.reserve_date+'&nbsp;&nbsp;&nbsp;&nbsp;'+scope.row.reserve_time_start+'~'+scope.row.reserve_time_end }}
+                        </span>
+                      </template>                      
                     </el-table-column>
                     <el-table-column
                       prop="room"
                       label="咨询室"
-                      width="150">
+                      width="250">
                     </el-table-column>
                     <el-table-column
                       prop="conselor"
                       label="咨询师"
-                      width="120">
+                      width="150">
                     </el-table-column> 
                     <el-table-column
                       prop="entry_pereson"
                       label="助理"
-                      width="120">
+                      width="150">
                     </el-table-column>                                                                                   
                     <el-table-column
                       prop="visitor_name"
                       label="来访者"
-                      width="120">
+                      width="150">
                     </el-table-column>                    
                     <el-table-column
                       prop="visitor_sex"
                       label="性别"
-                      width="80">
+                      width="100">
                     </el-table-column>
                     <el-table-column
                       prop="visitor_phone"
                       label="电话"
-                      width="150">
+                      width="180">
                     </el-table-column>
                     <el-table-column
                       prop="birthday"
                       label="出生日期"
                       width="150">
-                    </el-table-column>
-                    <el-table-column
-                      prop="consult_times"
-                      label="咨询次数"
-                      width="100">                      
-                    </el-table-column>
-                    <el-table-column
-                      prop="entry_time"
-                      label="预约时间"
-                      sortable
-                      width="220">                      
-                    </el-table-column>   
-                    <el-table-column width="100" label="操作" fixed="right">
+                    </el-table-column> 
+                    <el-table-column width="120" label="操作" fixed="right">
                         <el-button
                           class="listbutton"
                           @click="handleDelete(scope.$index, scope.row)">编辑</el-button>                  
@@ -213,6 +203,7 @@ export default {
   
   Vue.use(VueAxios, axios)
 
+  var tData = [];
   export default {
     data() {
       return {
@@ -220,72 +211,7 @@ export default {
         /* 进入页面时默认进入未完成预约标签页 */
         activeName: 'first',
         /* 未完成预约列表数据 */
-        UNFreservation: [{
-          reserve_time: '2016-03-02  16:00~17:00',
-          room: '咨询室1',
-          conselor: '赵七',
-          entry_pereson: '琪琪',
-          visitor_name: '李四',
-          visitor_sex: '男',
-          visitor_phone: '13466763626',
-          birthday: '1993-09-27',
-          consult_times: '2',
-          entry_time: '2016-05-02 16:30:27',
-        },{
-          reserve_time: '2019-05-02  16:00~17:00',
-          room: '咨询室2',
-          conselor: '陈七',
-          entry_pereson: '妙妙',
-          visitor_name: '王五',
-          visitor_sex: '男',
-          visitor_phone: '13466763626',
-          birthday: '1993-09-27',
-          consult_times: '2',
-          entry_time: '2016-05-02 16:30:27',
-        },{
-          reserve_time: '2016-05-07  16:00~17:00',
-          room: '沙盘室2',
-          conselor: '薇薇',
-          entry_pereson: '甜甜',
-          visitor_name: '张三',
-          visitor_sex: '男',
-          visitor_phone: '13466763626',
-          birthday: '1993-09-27',
-          consult_times: '2',
-          entry_time: '2016-05-02 16:30:27',
-        }],
-        search_reserve_time:'',
-        search_room:'',
-        search_visitor_name:'',
-        search_conselor:'',
-        search_entry_pereson:'',
-        search_visitor_phone:'',
-        search_entry_time:'',
-        options: [{
-          label: '咨询室',
-          options: [{
-            value: '咨询室1',
-            label: '咨询室1'
-          }, {
-            value: '咨询室2',
-            label: '咨询室2'
-          }]
-        }, {
-          label: '沙盘室',
-          options: [{
-            value: '沙盘室1',
-            label: '沙盘室1'
-          }, {
-            value: '沙盘室2',
-            label: '沙盘室2'
-          }, {
-            value: '沙盘室3',
-            label: '沙盘室3'
-          }, {
-            value: '沙盘室4',
-            label: '沙盘室4'
-          }]
-        }],
+        UNFreservation: tData,
         value: '',
         pickerOptions: {
           shortcuts: [{
@@ -332,9 +258,13 @@ export default {
             }
           }]
         },
-        value1: '',            
+        value1:[],            
       }
       
+    },created() {
+      Vue.axios.get('http://106.13.143.112:15000/').then((response) => {
+        tData = response.data;
+      })
     },
     methods: {
       handleEdit(index, row) {
@@ -348,10 +278,6 @@ export default {
       },
     }   
   }
-  Vue.axios.get('http://106.13.143.112:15000/').then((response) => {
-    console.log(response.data)
-  })
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -477,7 +403,6 @@ export default {
     cursor:pointer;
     box-sizing: border-box;
     outline: 0;
-    margin: 0;
     text-align: center;
     vertical-align: center;
     background-color: #22B8EB;
@@ -499,10 +424,9 @@ export default {
     cursor:pointer;
     box-sizing: border-box;
     outline: 0;
-    margin: 0;
     text-align: center;
     vertical-align: center;
-    margin-left: 5px;
+    margin-left: 0px;
     padding: 7px 15px;
     font-size: 12px;
   }
@@ -517,10 +441,9 @@ export default {
     cursor:pointer;
     box-sizing: border-box;
     outline: 0;
-    margin: 0;
     text-align: center;
     vertical-align: center;
-    margin-left: 5px;
+    margin-left: 0px;
     padding: 7px 15px;
     font-size: 12px;
   }
@@ -592,15 +515,19 @@ export default {
   .el-date-editor .el-range-input, .el-date-editor .el-range-separator{
     font-size:12px;
   }
+  /* 起始日期时间选择面板位置*/
   .el-picker-panel, .el-date-range-picker{
     margin-left:230px;
   }
+  /* 起始日期时间选择面板上方箭头位置*/
   .el-popper[x-placement^=bottom] .popper__arrow{
     margin-left:-100px;
   }
+  /* 起始日期时间选择面板日期时间展示框大小*/
   .el-input--small .el-input__inner{
     width:120px;
   }
+  /* 起始日期时间选择面板日期时间展示框位置*/
   .el-date-range-picker__time-picker-wrap{
     padding:0 15px 0 15px;
   }
