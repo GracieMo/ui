@@ -7,6 +7,50 @@
       <img src="..\assets\img\11.png" style="padding:15px 0 0 5px; float:left; height:35px">
       <span style="padding-right:5px; font-size:15px; color:#22B8EB">上海机构1</span>
       <span style="padding-right:30px; font-size:15px; color:#22B8EB">·丨</span>
+      <div class="information">
+        <el-badge is-dot class="dot">
+          <el-popover
+            placement="bottom"
+            width="400"
+            trigger="click"
+            :visible-arrow="false"> 
+            <div>
+              <div
+                v-for="information in UNRinformation"
+                :key="information.id">
+                <el-row style="margin:5px 5px 0 5px;">
+                  <el-col :span="5"><div style="color:#555555; font-weight:bold;">{{information.title}}</div></el-col>
+                  <el-col :span="6" :offset="13"><div style="text-align:right; color:#FB5252;">{{information.generationDate}}</div></el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="40" style="margin:5px 5px 5px 5px;">
+                    <div style="margin:5px 0 5px 0;">{{information.content}}</div>
+                  </el-col>
+                </el-row>
+                <el-row style="margin:5px 5px 0 5px;">
+                  <el-col>
+                    <hr style="background-color:#E6E6E6;  width:100%; border:none; height:1px; margin-bottom:5px">
+                  </el-col>
+                </el-row>                                
+              </div>
+              <div>
+                <el-row style="margin:5px 5px 0 5px;">
+                  <el-col :span="5" style="cursor:pointer;">
+                    <span style="font-size:14px;color:#22B8EB;">一键已读</span>
+                    <i class="iconfont icon-dui1" style="padding-left: 5px; color:#22B8EB; font-size:14px;"></i>
+                  </el-col>
+                  <el-col :span="5" :offset="14" style="cursor:pointer;">                  
+                    <span style="font-size:14px;color:#22B8EB;text-align:right;padding-left:8px;">更多消息</span>
+                    <i class="iconfont icon-arrow-" style="padding-left: 5px; color:#22B8EB; font-size:12px;"></i>
+                  </el-col>
+                </el-row>              
+              </div>
+            </div>                                 
+            <i slot="reference" class="iconfont icon-informatiom" style="cursor:pointer; color:#22B8EB; "></i>                     
+         </el-popover>   
+        </el-badge>
+      </div>
+
       <el-dropdown trigger="click">
         <i class="iconfont icon-iconfontgerenzhongxin" style="cursor:pointer; margin-right: 15px; color:#22B8EB; "></i>
         <el-dropdown-menu slot="dropdown" style="width:240px; margin-top:4px;border:none;padding-bottom:5px; ">
@@ -58,14 +102,14 @@
               <div style="text-align:left;">
                 <span style="color:#373737; font-size:25px;margin-left:25px;">未完成预约</span>
                 <span style="color:#7A7B7B; font-size:17px; padding: 18px 5px 20px 5px;">Appointment</span>
-                <i class="iconfont icon-jia" style="color:#22B8EB; font-size:25px; padding-left:5px; cursor:pointer;"></i>
+                <i class="iconfont icon-jia" style="color:#22B8EB; font-size:25px; padding-left:5px; cursor:pointer;" @click="createOreditVisitorFormVisible = true"></i>
               </div>
               <!--搜索栏-->
               <div style="float:left;text-align:left;margin:35px 35px 35px 25px">
                 <div style="display:blockl;margin-bottom:20px;">
                   <span class="searchfont">咨询时间</span>
                   <el-date-picker
-                    v-model="value1"
+                    v-model="search_reservetime"
                     type="datetimerange"
                     align="right"
                     :picker-options="pickerOptions"
@@ -73,7 +117,7 @@
                     end-placeholder="结束日期"
                     :default-time="['8:00:00', '20:00:00']">
                   </el-date-picker>
-                </div>              
+                </div>          
                 <span class="searchfont">咨询室</span>
                 <el-select v-model="search_room" clearable placeholder="请选择">
                   <el-option-group
@@ -90,26 +134,29 @@
                 </el-select>                
                 <span class="searchfont">咨询师</span>
                 <el-input
-                  v-model="search_conselor"/>
+                  v-model="search_conselor"
+                  clearable/>
                 <span class="searchfont">助理</span>
                 <el-input
-                  v-model="search_entry_pereson"/>                                       
+                  v-model="search_entry_pereson"
+                  clearable/>                                       
                 <span class="searchfont">来访者姓名</span>                                          
                 <el-input
-                  v-model="search_visitor_name"/>
+                  v-model="search_visitor_name"
+                  clearable/>
                 <span class="searchfont">来访者电话</span>                                          
                 <el-input
-                  v-model="search_visitor_phone"/>                              
+                  v-model="search_visitor_phone"
+                  clearable/>                              
               </div>
               <!--未完成预约表格-->
               <div style="margin:0 35px 0 25px; height:100%;" >
                 <!--搜索栏方法-->
                 <el-table
                     :data="UNFreservation.filter(data => (
-                    !search_reserve_time 
-                    &&(value1.length == 0
-                        ||(new Date(data.reserve_date+' '+data.reserve_time_start) >= value1[0]
-                            &&new Date(data.reserve_date+' '+data.reserve_time_end) <= value1[1]))                   
+                    (!search_reservetime 
+                    || (new Date(data.reserve_date+' '+data.reserve_time_start).getTime() >= search_reservetime[0].getTime()
+                       && new Date(data.reserve_date+' '+data.reserve_time_end).getTime() <= search_reservetime[1].getTime()))              
                     &&(!search_room
                         ||data.room.toLowerCase().includes(search_room.toLowerCase()))
                     &&(!search_visitor_name
@@ -124,6 +171,7 @@
                     :default-sort = "{prop: 'scope', order: 'descending'}"
                     stripe
                     >
+                    <!--未完成预约表格主体-->
                     <el-table-column
                       type="index"
                       width="50"
@@ -177,7 +225,7 @@
                     <el-table-column width="120" label="操作" fixed="right">
                         <el-button
                           class="listbutton"
-                          @click="handleDelete(scope.$index, scope.row)">编辑</el-button>                  
+                          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>                  
                     </el-table-column>                                                                                    
                   </el-table>                                
               </div>
@@ -185,6 +233,7 @@
             <el-tab-pane label="已完成预约" name="second">已完成预约</el-tab-pane>
           </el-tabs>
         </div>
+        <Test />
       </el-main>
     </el-container>
   </el-container>
@@ -197,23 +246,64 @@ export default {
 </script>
 
 <script>
+  /* 用vue_axios从后台获取数据 */
   import Vue from 'vue';
   import axios from 'axios';
-  import VueAxios from 'vue-axios'
+  import VueAxios from 'vue-axios';
+  import Test from './test.vue';
   
   Vue.use(VueAxios, axios)
 
   var tData = [];
-  export default {
+  export default { 
+    components: {
+      Test,
+    },      
     data() {
-      return {
+      return {       
         msg:[],
+        /* 咨询室（沙盘室）下拉列表框选项 */
+        options: [{
+          label: '咨询室',
+          options: [{
+            value: '咨询室1',
+            label: '咨询室1'
+          }, {
+            value: '咨询室2',
+            label: '咨询室2'
+          }, {
+            value: '咨询室3',
+            label: '咨询室3'
+          }, {
+            value: '咨询室4',
+            label: '咨询室4'
+          }]
+        }, {
+          label: '沙盘室',
+          options: [{
+            value: '沙盘室1',
+            label: '沙盘室1'
+          }, {
+            value: '沙盘室2',
+            label: '沙盘室2'
+          }],
+          value: '',
+        }],
+        /* 其他输入框内容初始化 */
+        search_room:'',
+        search_conselor:'',
+        search_entry_pereson:'',
+        search_visitor_name:'',
+        search_visitor_phone:'', 
+        search_reservetime:'',    
+        
         /* 进入页面时默认进入未完成预约标签页 */
         activeName: 'first',
         /* 未完成预约列表数据 */
-        UNFreservation: tData,
-        value: '',
-        pickerOptions: {
+        UNFreservation: '' ,
+        /* 咨询时间起止筛选框快捷选项 */
+        value1:[],          
+        pickerOptions: {           
           shortcuts: [{
             text: '最近一周',
             onClick(picker) {
@@ -257,25 +347,31 @@ export default {
               picker.$emit('pick', [start, end]);
             }
           }]
-        },
-        value1:[],            
+        },                            
       }
       
     },created() {
-      Vue.axios.get('http://106.13.143.112:15000/').then((response) => {
-        tData = response.data;
+      /* 获取未完成预约后台信息 */
+      this.axios.get('http://106.13.143.112:15000/').then((response) => {
+        this.UNFreservation = response.data;
+      }),
+      /* 获取未读消息 */
+      this.axios.get('http://106.13.143.112:15000/msg/unread').then((response) => {
+        this.UNRinformation = response.data;
+        if(this.UNRinformation.length==0){
+          this.UNRinformation=[{'id':'','title':'','generationDate':'','content':'没有未读消息！'}]
+        }
       })
     },
     methods: {
+      /* 编辑方法 */
       handleEdit(index, row) {
 
       },
-      handleDelete(index, row) {
-
-      },
+      /* 标签页变更 */
       changerev(tab, event) {
        
-      },
+      },       
     }   
   }
 </script>
@@ -289,6 +385,19 @@ export default {
     border-bottom: solid 1px #F0F0F0;
     padding:0 20px 0 10px;
   }
+  /* 未读消息红点样式 */
+  .dot {
+    margin-right: 40px;
+    line-height: 16px;
+    margin-bottom:4px;
+    color:#FB5252;
+  }
+  /* 未读消息div整体样式 */
+  .information{
+    line-height: 65px;
+    display: inline-block;
+  }
+
   /* 侧栏样式 */
   .el-aside {
     background-color: #ffffff;
@@ -298,7 +407,7 @@ export default {
   .el-main {
     background-color: #F7F7F7;
     text-align: center;
-    padding:0;
+    padding:15px 15px;
   }
 
   /* 侧边导航样式：展开后 */
@@ -332,11 +441,11 @@ export default {
   /* 页面主体 */ 
   .main{
     background-color: #fff;
-    height:100%;
+    height:99.7%;
     border: solid 1px #F0F0F0;
-    margin:15px 15px 15px 15px;        
+            
   }
-
+  /* 导航包含关系 */
   .el-container:nth-child(5) .el-aside,
   .el-container:nth-child(6) .el-aside {
     line-height: 260px;
@@ -504,7 +613,7 @@ export default {
   }
   /* 起始日期时间选择框宽度*/
   .el-date-editor--datetimerange.el-input, .el-date-editor--datetimerange.el-input__inner{
-    width:22%;
+    width:24%;
 
   }
   /* 起始日期时间选择框文字与icon位置*/
@@ -528,7 +637,7 @@ export default {
     width:120px;
   }
   /* 起始日期时间选择面板日期时间展示框位置*/
-  .el-date-range-picker__time-picker-wrap{
+  .el-date-range-picker__time-picker-wrap,.el-date-range-picker__time-picker-wrap{
     padding:0 15px 0 15px;
   }
 </style>
