@@ -1,4 +1,4 @@
-# ui-project
+# ui-project-sx
 
 ## Project setup
 ```
