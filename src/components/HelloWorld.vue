@@ -218,7 +218,9 @@
                     &&(!search_entry_pereson 
                         ||data.entry_pereson.toLowerCase().includes(search_entry_pereson.toLowerCase()))
                     &&(!search_visitor_phone
-                        ||data.visitor_phone.toLowerCase().includes(search_visitor_phone.toLowerCase()))))"
+                        ||data.visitor_phone.toLowerCase().includes(search_visitor_phone.toLowerCase()))
+                    &&(!search_status
+                        ||data.status.toLowerCase().includes(search_status.toLowerCase()))))"
                     border
                     :default-sort = "{prop: 'scope', order: 'descending'}"
                     stripe
@@ -267,7 +269,7 @@
                     <el-table-column
                       prop="visitor_phone"
                       label="电话"
-                      width="180">
+                      width="120">
                     </el-table-column>
                     <el-table-column
                       prop="birthday"
@@ -279,26 +281,15 @@
                       label="状态"
                       width="100">
                     </el-table-column>                    
-                    <el-table-column width="120" label="操作" fixed="right">
-                      <template scope="scope">
-                        {{scope.row.status}}
+                    <el-table-column 
+                      width="220" 
+                      label="操作" 
+                      fixed="right">
+                      <template slot-scope="scope">
+                        <el-button v-if="scope.row.status!='已关闭'" type="primary" size="small">编辑</el-button>
+                        <el-button v-if="scope.row.status!='已关闭'&& scope.row.status!='已完成'" type="danger" size="small">关闭</el-button>
                       </template>
-                      <!-- <template slot-scope="scope">
-
-                        <el-button v-if:"{{row.status}}='未付款'"
-                          class="listbutton"
-                          >编辑</el-button>
-                        <el-button v-else-if="row.status"
-                          class="listbutton"
-                          >关闭</el-button>
-                        <el-button v-else-if="row.status"
-                          class="listbutton"
-                          >123</el-button>
-                        <el-button v-else-if="row.status"
-                          class="listbutton"
-                          >000</el-button> 
-                      </template>                                                 -->
-                    </el-table-column>                                                                                                                         
+                    </el-table-column>                                                                                                                     
                   </el-table>                                                 
               </div>
               <el-pagination
@@ -603,7 +594,7 @@ export default {
   }
   /* 表格列表操作按钮 */ 
   .listbutton{
-    display: inline-block;
+    display: inline;
     line-height:1;
     white-space:nowrap;
     cursor:pointer;
@@ -624,7 +615,7 @@ export default {
     background-color:#fff;
     color:#22B8EB;
     border: 1px solid #22B8EB;
-    display: inline-block;
+    display: inline;
     line-height:1;
     white-space:nowrap;
     cursor:pointer;
@@ -641,7 +632,7 @@ export default {
     background-color:#fff;
     color:#555555;
     border: 1px solid #555555;
-    display: inline-block;
+    display: inline;
     line-height:1;
     white-space:nowrap;
     cursor:pointer;
