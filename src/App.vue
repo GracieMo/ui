@@ -1,14 +1,14 @@
 <template>
-    <HelloWorld/>
+    <Navi/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Navi from './components/navi.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld,
+    Navi,
   }
 }
 </script>

@@ -131,7 +131,7 @@
               <div style="text-align:left;">
                 <span style="color:#373737; font-size:25px;margin-left:25px;">未完成预约</span>
                 <span style="color:#7A7B7B; font-size:17px; padding: 18px 5px 20px 5px;">Appointment</span>
-                <i class="iconfont icon-jia" style="color:#22B8EB; font-size:25px; padding-left:5px; cursor:pointer;" @click="createOreditVisitorFormVisible = true"></i>
+                <i class="iconfont icon-jia" style="color:#22B8EB; font-size:25px; padding-left:5px; cursor:pointer;"></i>
               </div>
               <!--搜索栏-->
               <div style="float:left;text-align:left;margin:35px 35px 35px 25px">
@@ -318,7 +318,6 @@ export default {
   import Vue from 'vue';
   import axios from 'axios';
   import VueAxios from 'vue-axios';
-  import Test from './test.vue';
   
   Vue.use(VueAxios, axios)
 
@@ -482,11 +481,6 @@ export default {
     display: inline-block;
   }
 
-  /* 侧栏样式 */
-  .el-aside {
-    background-color: #ffffff;
-    text-align: center;
-  }
   /* 页面主体背景 */
   .el-main {
     background-color: #F7F7F7;
@@ -644,81 +638,7 @@ export default {
     padding: 7px 15px;
     font-size: 12px;
   }
-  /* 搜索栏字体*/ 
-  /* .searchfont{
-    padding-right:10px;
-    font-size:14px;
-    display: inline;
-  } */
-  /* 搜索栏输入框整体*/ 
-  /* .el-input{
-    position: relative; 
-    display: inline;
-    width:8%;
-    margin:0 20px 0 0;
-  } */
-  /* 搜索栏输入框*/
-  /* .el-input__inner{
-    width:8%;
-    font-size:12px;
-    background-color:#fff;
-    border-radius: 4px;
-    border:1px solid #DCDFE6;
-    box-sizing: border-box;
-    color:#606266;
-    display: inline;
-    height:30px;
-    line-height:30px;
-    position:relative;       
-  } */
-  /* 下拉列表框输入框整体*/
-  /* .el-select,.el-select>.el-input{
-    position: relative;
-    display: inline;
-    margin:0 15px 0 7px;  
-  } */
-  /* 下拉列表框输入框*/
-  /* .el-select> .el-input__inner{
-    width:10%;
-    font-size:12px;
-    background-color:#fff;
-    border-radius: 4px;
-    border:1px solid #DCDFE6;
-    box-sizing: border-box;
-    color:#606266;
-    display: inline;
-    height:30px;
-    line-height:30px;
-    position:relative;       
-  } */
-  /* 下拉列表框下拉面板*/
-  /* .el-select-dropdown{
-    width:8%;
-  } */
-  /* 下拉列表框下拉箭头icon*/
-  /* .el-input__icon{
-    line-height: 20px;
-    width:25px;
-  } */
-
-  /* 搜索栏label样式*/
-  /* .el-form-item__label{
-    padding:0 0 0 0;
-  } */
-
-  /* 起始日期时间选择框宽度*/
-  /* .el-date-editor--datetimerange.el-input, .el-date-editor--datetimerange.el-input__inner{
-    width:31%;
-
-  } */
-  /* 起始日期时间选择框文字与icon位置*/
-  /* .el-date-editor .el-range__icon, .el-date-editor .el-range-separator,.el-date-editor .el-range__close-icon{
-    line-height: 20px;
-  } */
-  /* 起始日期时间选择框文字大小*/
-  /* .el-date-editor .el-range-input, .el-date-editor .el-range-separator{
-    font-size:12px;
-  } */
+  
   /* 起始日期时间选择面板位置*/
   .el-picker-panel, .el-date-range-picker{
     margin-left:230px;
@@ -727,12 +647,5 @@ export default {
   .el-popper[x-placement^=bottom] .popper__arrow{
     margin-left:-100px;
   }
-  /* 起始日期时间选择面板日期时间展示框大小*/
-  /* .el-input--small .el-input__inner{
-    width:120px;
-  } */
-  /* 起始日期时间选择面板日期时间展示框位置*/
-  /* .el-date-range-picker__time-picker-wrap,.el-date-range-picker__time-picker-wrap{
-    padding:0 15px 0 15px;
-  } */
+
 </style>
