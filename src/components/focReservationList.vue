@@ -11,7 +11,7 @@
             <el-form label-width="85px" :label-position="search_form_lable"  size="medium">
                 <el-form-item label="咨询时间">
                 <el-date-picker
-                    v-model="search_reservetime"
+                    v-model="search_reservetime_f"
                     type="datetimerange"
                     align="right"
                     :picker-options="pickerOptions"
@@ -23,7 +23,7 @@
             </el-form>
             <el-form :inline="true" label-width="85px" :label-position="search_form_lable"  class="demo-form-inline" size="medium">
                 <el-form-item label="咨询室">
-                <el-select style="width:120px" v-model="search_room" clearable placeholder="请选择">
+                <el-select style="width:120px" v-model="search_room_f" clearable placeholder="请选择">
                     <el-option-group 
                     v-for="group in rooms"
                     :key="group.label"
@@ -40,29 +40,29 @@
                 <el-form-item label="咨询师姓名" >
                 <el-input 
                     style="width:120px"
-                    v-model="search_conselor"
+                    v-model="search_conselor_f"
                     clearable/> 
                 </el-form-item>
                 <el-form-item label="助理姓名">
                 <el-input
                     style="width:120px"
-                    v-model="search_entry_pereson"
+                    v-model="search_entry_pereson_f"
                     clearable/> 
                 </el-form-item>
                 <el-form-item label="来访者姓名">
                 <el-input
                     style="width:120px"
-                    v-model="search_visitor_name"
+                    v-model="search_visitor_name_f"
                     clearable/>  
                 </el-form-item> 
                 <el-form-item label="来访者电话">
                 <el-input
                     style="width:120px"
-                    v-model="search_visitor_phone"
+                    v-model="search_visitor_phone_f"
                     clearable/>  
                 </el-form-item>
                 <el-form-item label="预约状态">
-                <el-select style="width:120px" v-model="search_status" placeholder="请选择" clearable>
+                <el-select style="width:120px" v-model="search_status_f" placeholder="请选择" clearable>
                     <el-option
                     v-for="item in status"
                     :key="item.value"
@@ -78,22 +78,22 @@
         <div style="margin:0 35px 0 25px; height:100%;" >
         <!--搜索栏方法-->
             <el-table
-                :data="UNFreservation.filter(data => (
-                (!search_reservetime 
-                || (new Date(data.reserve_date+' '+data.reserve_time_start).getTime() >= search_reservetime[0].getTime()
-                    && new Date(data.reserve_date+' '+data.reserve_time_end).getTime() <= search_reservetime[1].getTime()))              
-                &&(!search_room
-                    ||data.room.toLowerCase().includes(search_room.toLowerCase()))
-                &&(!search_visitor_name
-                    ||data.visitor_name.toLowerCase().includes(search_visitor_name.toLowerCase()))
-                &&(!search_conselor
-                    ||data.conselor.toLowerCase().includes(search_conselor.toLowerCase()))
-                &&(!search_entry_pereson 
-                    ||data.entry_pereson.toLowerCase().includes(search_entry_pereson.toLowerCase()))
-                &&(!search_visitor_phone
-                    ||data.visitor_phone.toLowerCase().includes(search_visitor_phone.toLowerCase()))
-                &&(!search_status
-                    ||data.status.toLowerCase().includes(search_status.toLowerCase()))))"
+                :data="FOCreservationList.filter(data => (
+                (!search_reservetime_f 
+                || (new Date(data.reserve_date+' '+data.reserve_time_start).getTime() >= search_reservetime_f[0].getTime()
+                    && new Date(data.reserve_date+' '+data.reserve_time_end).getTime() <= search_reservetime_f[1].getTime()))              
+                &&(!search_room_f
+                    ||data.room.toLowerCase().includes(search_room_f.toLowerCase()))
+                &&(!search_visitor_name_f
+                    ||data.visitor_name.toLowerCase().includes(search_visitor_name_f.toLowerCase()))
+                &&(!search_conselor_f
+                    ||data.conselor.toLowerCase().includes(search_conselor_f.toLowerCase()))
+                &&(!search_entry_pereson_f 
+                    ||data.entry_pereson.toLowerCase().includes(search_entry_pereson_f.toLowerCase()))
+                &&(!search_visitor_phone_f
+                    ||data.visitor_phone.toLowerCase().includes(search_visitor_phone_f.toLowerCase()))
+                &&(!search_status_f
+                    ||data.status.toLowerCase().includes(search_status_f.toLowerCase()))))"
                 border
                 :default-sort = "{prop: 'scope', order: 'descending'}"
                 stripe
@@ -224,14 +224,8 @@ export default {
         }],
         /* 预约状态下拉框选项 */
         status: [{
-          value: '未付款',
-          label: '未付款'
-        }, {
-          value: '已付款',
-          label: '已付款'
-        }, {
           value: '已关闭',
-          label: '已关闭'
+          label: '已关闭',
         }, {
           value: '已完成',
           label: '已完成'
@@ -240,17 +234,17 @@ export default {
 
         /* 其他输入框内容初始化 */
         search_form_lable:'right',
-        search_room:'',
-        search_conselor:'',
-        search_entry_pereson:'',
-        search_visitor_name:'',
-        search_visitor_phone:'', 
-        search_reservetime:'',
-        search_status:'',   
+        search_room_f:'',
+        search_conselor_f:'',
+        search_entry_pereson_f:'',
+        search_visitor_name_f:'',
+        search_visitor_phone_f:'', 
+        search_reservetime_f:'',
+        search_status_f:'已完成',   
         
 
         /* 未完成预约列表数据 */
-        UNFreservation: [] ,
+        FOCreservationList: [] ,
         /* 咨询时间起止筛选框快捷选项 */
         value1:[],          
         pickerOptions: {           
@@ -303,7 +297,7 @@ export default {
     },created() {
       /* 获取未完成预约后台信息 */
       this.axios.get('http://106.13.143.112:15000/').then((response) => {
-        this.UNFreservation = response.data;
+        this.FOCreservationList = response.data;
       })
     },
     methods: {

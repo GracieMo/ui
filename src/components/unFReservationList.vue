@@ -229,12 +229,6 @@ export default {
         }, {
           value: '已付款',
           label: '已付款'
-        }, {
-          value: '已关闭',
-          label: '已关闭'
-        }, {
-          value: '已完成',
-          label: '已完成'
         }],
         value: '',
 

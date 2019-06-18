@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Navi from './components/navi.vue'
+import Navi from './components/login.vue'
 
 export default {
   name: 'app',
