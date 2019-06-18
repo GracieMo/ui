@@ -1,29 +1,32 @@
 <template>
     <div>
-        <!--已完成/已关闭预约头部-->
+        <!--Step1:选择咨询师 头部-->
         <div style="text-align:left;">
-            <span style="color:#373737; font-size:25px;margin-left:25px;">已完成/已关闭预约</span>
-            <span style="color:#7A7B7B; font-size:17px; padding: 18px 5px 20px 5px;">Appointment</span>
-            <i class="iconfont icon-jia" style="color:#22B8EB; font-size:25px; padding-left:5px; cursor:pointer;"></i>
+            <span style="color:#373737; font-size:25px;margin-left:25px;">选择咨询师</span>
+            <span style="color:#7A7B7B; font-size:17px; padding: 18px 5px 20px 5px;">ChooseConselor</span>
         </div>
         <!--搜索栏-->
         <div style="float:left;text-align:left;margin:35px 35px 35px 25px">
-            <el-form label-width="85px" :label-position="search_form_lable"  size="medium">
-                <el-form-item label="咨询时间">
-                <el-date-picker
-                    v-model="search_reservetime_f"
-                    type="datetimerange"
-                    align="right"
-                    :picker-options="pickerOptions"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    :default-time="['8:00:00', '20:00:00']">
-                </el-date-picker>   
-                </el-form-item>               
-            </el-form>
             <el-form :inline="true" label-width="85px" :label-position="search_form_lable"  class="demo-form-inline" size="medium">
-                <el-form-item label="咨询室">
-                <el-select style="width:120px" v-model="search_room_f" clearable placeholder="请选择">
+                <el-form-item label="咨询师姓名" >
+                    <el-select
+                        v-model="value"
+                        filterable
+                        remote
+                        reserve-keyword
+                        placeholder="请输入姓名关键字"
+                        :remote-method="remoteMethod"
+                        :loading="loading">
+                        <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>                
+                <el-form-item label="性别">
+                <el-select style="width:120px" v-model="search_room" clearable placeholder="请选择">
                     <el-option-group 
                     v-for="group in rooms"
                     :key="group.label"
@@ -40,29 +43,29 @@
                 <el-form-item label="咨询师姓名" >
                 <el-input 
                     style="width:120px"
-                    v-model="search_conselor_f"
+                    v-model="search_conselor"
                     clearable/> 
                 </el-form-item>
                 <el-form-item label="助理姓名">
                 <el-input
                     style="width:120px"
-                    v-model="search_entry_pereson_f"
+                    v-model="search_entry_pereson"
                     clearable/> 
                 </el-form-item>
                 <el-form-item label="来访者姓名">
                 <el-input
                     style="width:120px"
-                    v-model="search_visitor_name_f"
+                    v-model="search_visitor_name"
                     clearable/>  
                 </el-form-item> 
                 <el-form-item label="来访者电话">
                 <el-input
                     style="width:120px"
-                    v-model="search_visitor_phone_f"
+                    v-model="search_visitor_phone"
                     clearable/>  
                 </el-form-item>
                 <el-form-item label="预约状态">
-                <el-select style="width:120px" v-model="search_status_f" placeholder="请选择" clearable>
+                <el-select style="width:120px" v-model="search_status" placeholder="请选择" clearable>
                     <el-option
                     v-for="item in status"
                     :key="item.value"
@@ -74,31 +77,31 @@
             </el-form>
         </div>                                              
 
-        <!--已完成/已关闭预约表格-->
+        <!--未完成预约表格-->
         <div style="margin:0 35px 0 25px; height:100%;" >
         <!--搜索栏方法-->
             <el-table
-                :data="FOCreservationList.filter(data => (
-                (!search_reservetime_f 
-                || (new Date(data.reserve_date+' '+data.reserve_time_start).getTime() >= search_reservetime_f[0].getTime()
-                    && new Date(data.reserve_date+' '+data.reserve_time_end).getTime() <= search_reservetime_f[1].getTime()))              
-                &&(!search_room_f
-                    ||data.room.toLowerCase().includes(search_room_f.toLowerCase()))
-                &&(!search_visitor_name_f
-                    ||data.visitor_name.toLowerCase().includes(search_visitor_name_f.toLowerCase()))
-                &&(!search_conselor_f
-                    ||data.conselor.toLowerCase().includes(search_conselor_f.toLowerCase()))
-                &&(!search_entry_pereson_f 
-                    ||data.entry_pereson.toLowerCase().includes(search_entry_pereson_f.toLowerCase()))
-                &&(!search_visitor_phone_f
-                    ||data.visitor_phone.toLowerCase().includes(search_visitor_phone_f.toLowerCase()))
-                &&(!search_status_f
-                    ||data.status.toLowerCase().includes(search_status_f.toLowerCase()))))"
+                :data="UNFreservation.filter(data => (
+                (!search_reservetime 
+                || (new Date(data.reserve_date+' '+data.reserve_time_start).getTime() >= search_reservetime[0].getTime()
+                    && new Date(data.reserve_date+' '+data.reserve_time_end).getTime() <= search_reservetime[1].getTime()))              
+                &&(!search_room
+                    ||data.room.toLowerCase().includes(search_room.toLowerCase()))
+                &&(!search_visitor_name
+                    ||data.visitor_name.toLowerCase().includes(search_visitor_name.toLowerCase()))
+                &&(!search_conselor
+                    ||data.conselor.toLowerCase().includes(search_conselor.toLowerCase()))
+                &&(!search_entry_pereson 
+                    ||data.entry_pereson.toLowerCase().includes(search_entry_pereson.toLowerCase()))
+                &&(!search_visitor_phone
+                    ||data.visitor_phone.toLowerCase().includes(search_visitor_phone.toLowerCase()))
+                &&(!search_status
+                    ||data.status.toLowerCase().includes(search_status.toLowerCase()))))"
                 border
                 :default-sort = "{prop: 'scope', order: 'descending'}"
                 stripe
                 >
-                <!--已完成/已关闭预约表格主体-->
+                <!--未完成预约表格主体-->
                 <el-table-column
                     type="index"
                     width="50"
@@ -178,7 +181,7 @@
 
 <script>
 export default {
-  name: 'FocReservationList',
+  name: 'UnFReservationList',
 }
 </script>
 
@@ -194,118 +197,72 @@ export default {
   export default {    
     data() {
       return {
-        msg:[],
-        /* 咨询室（沙盘室）下拉列表框选项 */
-        rooms: [{
-          label: '咨询室',
-          options: [{
-            value: '咨询室1',
-            label: '咨询室1'
-          }, {
-            value: '咨询室2',
-            label: '咨询室2'
-          }, {
-            value: '咨询室3',
-            label: '咨询室3'
-          }, {
-            value: '咨询室4',
-            label: '咨询室4'
-          }]
-        }, {
-          label: '沙盘室',
-          options: [{
-            value: '沙盘室1',
-            label: '沙盘室1'
-          }, {
-            value: '沙盘室2',
-            label: '沙盘室2'
-          }],
-          value: '',
-        }],
-        /* 预约状态下拉框选项 */
-        status: [{
-          value: '已关闭',
-          label: '已关闭',
-        }, {
-          value: '已完成',
-          label: '已完成'
-        }],
-        value: '',
+        /* 咨询师按姓名关键字搜索 */   
+        options: [],
+        value: [],
+        list: [],
+        loading: false,
+        states: ["Alabama", "Alaska", "Arizona",
+        "Arkansas", "California", "Colorado",
+        "Connecticut", "Delaware", "Florida",
+        "Georgia", "Hawaii", "Idaho", "Illinois",
+        "Indiana", "Iowa", "Kansas", "Kentucky",
+        "Louisiana", "Maine", "Maryland",
+        "Massachusetts", "Michigan", "Minnesota",
+        "Mississippi", "Missouri", "Montana",
+        "Nebraska", "Nevada", "New Hampshire",
+        "New Jersey", "New Mexico", "New York",
+        "North Carolina", "North Dakota", "Ohio",
+        "Oklahoma", "Oregon", "Pennsylvania",
+        "Rhode Island", "South Carolina",
+        "South Dakota", "Tennessee", "Texas",
+        "Utah", "Vermont", "Virginia",
+        "Washington", "West Virginia", "Wisconsin",
+        "Wyoming"],
 
         /* 其他输入框内容初始化 */
         search_form_lable:'right',
-        search_room_f:'',
-        search_conselor_f:'',
-        search_entry_pereson_f:'',
-        search_visitor_name_f:'',
-        search_visitor_phone_f:'', 
-        search_reservetime_f:'',
-        search_status_f:'已完成',   
+        search_room:'',
+        search_conselor:'',
+        search_entry_pereson:'',
+        search_visitor_name:'',
+        search_visitor_phone:'', 
+        search_reservetime:'',
+        search_status:'',   
         
 
         /* 未完成预约列表数据 */
-        FOCreservationList: [] ,
-        /* 咨询时间起止筛选框快捷选项 */
-        value1:[],          
-        pickerOptions: {           
-          shortcuts: [{
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              start.setHours(8);
-              start.setMinutes(0);
-              start.setSeconds(0);
-              end.setHours(20);
-              end.setMinutes(0);
-              end.setSeconds(0);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();             
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              start.setHours(8);
-              start.setMinutes(0);
-              start.setSeconds(0);
-              end.setHours(20);
-              end.setMinutes(0);
-              end.setSeconds(0);               
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '最近三个月',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              start.setHours(8);
-              start.setMinutes(0);
-              start.setSeconds(0);
-              end.setHours(20);
-              end.setMinutes(0);
-              end.setSeconds(0);              
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },                            
+        UNFreservation: [] ,                           
       }
       
     },created() {
       /* 获取未完成预约后台信息 */
-      this.axios.get('http://106.13.143.112:15000/focReservationList').then((response) => {
-        this.FOCreservationList = response.data;
+      this.axios.get('http://106.13.143.112:15000/unFReservationList').then((response) => {
+        this.UNFreservation = response.data;
       })
     },
+    /* 获取未完成预约后台信息 */
+    mounted() {
+      this.list = this.states.map(item => {
+        return { value: item, label: item };
+      });
+    },    
     methods: {
-      /* 编辑方法 */
-      handleEdit(index, row) {
-
-      },      
-    }   
+      remoteMethod(query) {
+        if (query !== '') {
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+            this.options = this.list.filter(item => {
+              return item.label.toLowerCase()
+                .indexOf(query.toLowerCase()) > -1;
+            });
+          }, 200);
+        } else {
+          this.options = [];
+        }
+      }
+    }  
   }
 </script>
 

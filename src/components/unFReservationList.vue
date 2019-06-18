@@ -296,7 +296,7 @@ export default {
       
     },created() {
       /* 获取未完成预约后台信息 */
-      this.axios.get('http://106.13.143.112:15000/').then((response) => {
+      this.axios.get('http://106.13.143.112:15000/unFReservationList').then((response) => {
         this.UNFreservation = response.data;
       })
     },

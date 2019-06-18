@@ -125,7 +125,7 @@
       </el-menu>      
       <!--主体界面-->
       <el-main>
-        <ReservationTab />
+        <ReserveStep />
       </el-main>
     </el-container>
   </el-container>
@@ -142,14 +142,14 @@ export default {
   import Vue from 'vue';
   import axios from 'axios';
   import VueAxios from 'vue-axios';
-  import ReservationTab from './reservationTab.vue'
+  import ReserveStep from './reserveStep.vue'
 
   Vue.use(VueAxios, axios)
 
   var tData = [];
   export default {
     components: {
-        ReservationTab,
+        ReserveStep,
     },           
     data() {
       return {

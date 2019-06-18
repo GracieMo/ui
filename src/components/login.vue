@@ -2,11 +2,11 @@
     <div>
         <div>
             <el-row class='Loginback'>
-                <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="2"></el-col>
-                <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="10">
+                <el-col :span="2"></el-col>
+                <el-col :span="10">
                     <img  class="Loginimg" src="..\assets\img\login.png">
                 </el-col>
-                <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="10">
+                <el-col :span="10">
                     <div class="Loginpanel">
                     </div>
                     <div>
@@ -34,7 +34,7 @@
                         <el-checkbox>记住密码</el-checkbox>         
                     </div>                
                 </el-col>
-                <el-col :xs="8" :sm="6" :md="4" :lg="3" :xl="2"></el-col>
+                <el-col :span="2"></el-col>
             </el-row>
         </div>
         <!-- <div class="Logintext">
@@ -77,7 +77,6 @@
     position:absolute;
 } */
 .Loginimg{
-
     width:30%;
     height:100%;
     left:15%;
