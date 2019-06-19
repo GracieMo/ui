@@ -3,14 +3,13 @@
         <!--Step1:选择咨询师 头部-->
         <div style="text-align:left;">
             <span style="color:#373737; font-size:25px;margin-left:25px;">选择咨询师</span>
-            <span style="color:#7A7B7B; font-size:17px; padding: 18px 5px 20px 5px;">ChooseConselor</span>
         </div>
         <!--搜索栏-->
         <div style="float:left;text-align:left;margin:35px 35px 35px 25px">
-            <el-form :inline="true" label-width="85px" :label-position="search_form_lable"  class="demo-form-inline" size="medium">
+            <el-form :inline="true" label-width="85px" :label-position="search_form_lable"  class="demo-form-inline" size="medium">{{names}}
                 <el-form-item label="咨询师姓名" >
                     <el-select
-                        v-model="value"
+                        v-model="search_conselor_name"
                         filterable
                         remote
                         reserve-keyword
@@ -26,7 +25,7 @@
                     </el-select>
                 </el-form-item>                
                 <el-form-item label="性别">
-                <el-select style="width:120px" v-model="search_room" clearable placeholder="请选择">
+                <el-select style="width:120px" v-model="search_conselor_sex" clearable placeholder="请选择">
                     <el-option-group 
                     v-for="group in rooms"
                     :key="group.label"
@@ -40,140 +39,85 @@
                     </el-option-group>
                 </el-select> 
                 </el-form-item>
-                <el-form-item label="咨询师姓名" >
-                <el-input 
-                    style="width:120px"
-                    v-model="search_conselor"
-                    clearable/> 
-                </el-form-item>
-                <el-form-item label="助理姓名">
+                <el-form-item label="标签">
                 <el-input
                     style="width:120px"
-                    v-model="search_entry_pereson"
-                    clearable/> 
-                </el-form-item>
-                <el-form-item label="来访者姓名">
-                <el-input
-                    style="width:120px"
-                    v-model="search_visitor_name"
+                    v-model="search_conselor_tab"
                     clearable/>  
-                </el-form-item> 
-                <el-form-item label="来访者电话">
-                <el-input
-                    style="width:120px"
-                    v-model="search_visitor_phone"
-                    clearable/>  
-                </el-form-item>
-                <el-form-item label="预约状态">
-                <el-select style="width:120px" v-model="search_status" placeholder="请选择" clearable>
-                    <el-option
-                    v-for="item in status"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                    </el-option>
-                </el-select>
-                </el-form-item>                                                                                                               
+                </el-form-item>                                                                                                              
             </el-form>
         </div>                                              
 
-        <!--未完成预约表格-->
+        <!--咨询师信息表格-->
         <div style="margin:0 35px 0 25px; height:100%;" >
         <!--搜索栏方法-->
             <el-table
-                :data="UNFreservation.filter(data => (
-                (!search_reservetime 
-                || (new Date(data.reserve_date+' '+data.reserve_time_start).getTime() >= search_reservetime[0].getTime()
-                    && new Date(data.reserve_date+' '+data.reserve_time_end).getTime() <= search_reservetime[1].getTime()))              
-                &&(!search_room
-                    ||data.room.toLowerCase().includes(search_room.toLowerCase()))
-                &&(!search_visitor_name
-                    ||data.visitor_name.toLowerCase().includes(search_visitor_name.toLowerCase()))
-                &&(!search_conselor
-                    ||data.conselor.toLowerCase().includes(search_conselor.toLowerCase()))
-                &&(!search_entry_pereson 
-                    ||data.entry_pereson.toLowerCase().includes(search_entry_pereson.toLowerCase()))
-                &&(!search_visitor_phone
-                    ||data.visitor_phone.toLowerCase().includes(search_visitor_phone.toLowerCase()))
-                &&(!search_status
-                    ||data.status.toLowerCase().includes(search_status.toLowerCase()))))"
+                :data="reserveConselors"
                 border
-                :default-sort = "{prop: 'scope', order: 'descending'}"
-                stripe
+                highlight-current-row
+                @current-change="handleCurrentChange"
                 >
-                <!--未完成预约表格主体-->
+                <!--step1：选择咨询室 表格主体-->
                 <el-table-column
                     type="index"
                     width="50"
                     align="center">
                 </el-table-column>
                 <el-table-column
-                    label="咨询时间"
-                    sortable
-                    width="250">
-                    <template slot-scope="scope">
-                    <span style="margin-left: 10px">
-                        {{ scope.row.reserve_date+'&nbsp;&nbsp;&nbsp;&nbsp;'+scope.row.reserve_time_start+'~'+scope.row.reserve_time_end }}
-                    </span>
-                    </template>                      
+                    prop="conselor_name"
+                    label="姓名"
+                    width="150">                    
                 </el-table-column>
                 <el-table-column
-                    prop="room"
-                    label="咨询室"
+                    prop="conselor_nickname"
+                    label="昵称"
                     width="150">
                 </el-table-column>
                 <el-table-column
-                    prop="conselor"
-                    label="咨询师"
-                    width="150">
-                </el-table-column> 
-                <el-table-column
-                    prop="entry_pereson"
-                    label="助理"
-                    width="150">
-                </el-table-column>                                                                                   
-                <el-table-column
-                    prop="visitor_name"
-                    label="来访者"
-                    width="150">
-                </el-table-column>                    
-                <el-table-column
-                    prop="visitor_sex"
+                    prop="conselor_sex"
                     label="性别"
                     width="100">
-                </el-table-column>
+                </el-table-column>                
                 <el-table-column
-                    prop="visitor_phone"
-                    label="电话"
-                    width="120">
-                </el-table-column>
-                <el-table-column
-                    prop="birthday"
-                    label="出生日期"
-                    width="150">
-                </el-table-column>
-                <el-table-column
-                    prop="status"
-                    label="状态"
-                    width="100">
-                </el-table-column>                    
-                <el-table-column 
-                    width="220" 
-                    label="操作" 
-                    fixed="right">
+                    label="标签"
+                    width="600">
                     <template slot-scope="scope">
-                    <el-button v-if="scope.row.status!='已关闭'" type="primary" size="small">编辑</el-button>
-                    <el-button v-if="scope.row.status!='已关闭'&& scope.row.status!='已完成'" type="danger" size="small">关闭</el-button>
-                    </template>
-                </el-table-column>                                                                                                                     
+                      <el-tag
+                        :key="tab"
+                        v-for="tab in scope.row.tabs"
+                        style="margin-left: 10px;">
+                        {{tab}}
+                      </el-tag>
+                    </template>                   
+                </el-table-column>
+                <el-table-column
+                  label="受训经历与资历"
+                  width="146">
+                  <template slot-scope="scope">
+                    <el-popover trigger="click" placement="top" width="400">
+                      <span  style="margin: 5px 5px 5px 5px"><p style="color:#22B8EB">受训经历：</p><p>{{scope.row.training_experience}}</p></span>
+                      <hr style="background-color:#E6E6E6; width:100%; border:none; height:1px; margin-bottom:5px">
+                      <span  style="margin: 5px 5px 5px 5px"><p style="color:#22B8EB">资历：</p><p>{{scope.row.seniority}}</p></span>
+                      <div slot="reference" class="name-wrapper" style="padding: 0 50px 0 50px; ">
+                        <i class="iconfont icon-wendang" style="color:#22B8EB; font-size:25px"></i>
+                      </div>
+                    </el-popover>
+                  </template>
+                </el-table-column>                  
+                <el-table-column
+                    label="咨询费用"
+                    width="430">
+                  <template slot-scope="scope">
+                    <span
+                        :key="reserve_fee"
+                        v-for="reserve_fee in scope.row.reserve_fee"
+                        style="margin-left: 20px;">
+                        {{ reserve_fee.reserve_type+'：'+reserve_fee.fee+'/次' }}
+                    </span>
+                  </template>                    
+                </el-table-column>                                                                                                                                                                                                                                        
             </el-table>                                                 
         </div>
-        <el-pagination
-            background
-            layout="prev, pager, next"
-            :total="1000"
-            style="float:right; margin-right:25px">
-        </el-pagination>
     </div>            
 </template>
 
@@ -181,7 +125,7 @@
 
 <script>
 export default {
-  name: 'UnFReservationList',
+  name: 'S1cConselor',
 }
 </script>
 
@@ -197,71 +141,60 @@ export default {
   export default {    
     data() {
       return {
-        /* 咨询师按姓名关键字搜索 */   
+        /* 咨询师按姓名关键字搜索 相关内容初始化 */   
         options: [],
         value: [],
         list: [],
         loading: false,
-        states: ["Alabama", "Alaska", "Arizona",
-        "Arkansas", "California", "Colorado",
-        "Connecticut", "Delaware", "Florida",
-        "Georgia", "Hawaii", "Idaho", "Illinois",
-        "Indiana", "Iowa", "Kansas", "Kentucky",
-        "Louisiana", "Maine", "Maryland",
-        "Massachusetts", "Michigan", "Minnesota",
-        "Mississippi", "Missouri", "Montana",
-        "Nebraska", "Nevada", "New Hampshire",
-        "New Jersey", "New Mexico", "New York",
-        "North Carolina", "North Dakota", "Ohio",
-        "Oklahoma", "Oregon", "Pennsylvania",
-        "Rhode Island", "South Carolina",
-        "South Dakota", "Tennessee", "Texas",
-        "Utah", "Vermont", "Virginia",
-        "Washington", "West Virginia", "Wisconsin",
-        "Wyoming"],
 
         /* 其他输入框内容初始化 */
-        search_form_lable:'right',
-        search_room:'',
-        search_conselor:'',
-        search_entry_pereson:'',
-        search_visitor_name:'',
-        search_visitor_phone:'', 
-        search_reservetime:'',
-        search_status:'',   
+        search_conselor_name:'',
+        search_conselor_sex:'',
+        search_conselor_tab:'', 
         
 
-        /* 未完成预约列表数据 */
-        UNFreservation: [] ,                           
+        /* step1:选择咨询师 表格初始化 */
+        reserveConselors: [] ,                           
       }
       
     },created() {
       /* 获取未完成预约后台信息 */
-      this.axios.get('http://106.13.143.112:15000/unFReservationList').then((response) => {
-        this.UNFreservation = response.data;
+      this.axios.get('http://106.13.143.112:15000/conselors').then((response) => {
+        this.reserveConselors = response.data;
       })
     },
-    /* 获取未完成预约后台信息 */
-    mounted() {
-      this.list = this.states.map(item => {
-        return { value: item, label: item };
-      });
-    },    
+    /* 获取可选择的所有咨询师的姓名 */
+    // mounted() {
+    //   var names = [];
+    //   data.forEach(function(reserveConselors){
+    //   names.push({label: item.conselor_name, value: item.conselor_name})
+    //   })
+    //   this.list = this.names.map(item => {
+    //     return { value: item.conselor_name, label: item.conselor_name};
+    //   });
+    // },
+    // data.room.toLowerCase().includes(search_room.toLowerCase()
     methods: {
       remoteMethod(query) {
         if (query !== '') {
           this.loading = true;
           setTimeout(() => {
             this.loading = false;
-            this.options = this.list.filter(item => {
-              return item.label.toLowerCase()
+            this.options = reserveConselors.filter(item => {
+              return item.conselor_name.toLowerCase()
                 .indexOf(query.toLowerCase()) > -1;
             });
           }, 200);
         } else {
           this.options = [];
         }
-      }
+      },
+      setCurrent(row) {
+        this.$refs.singleTable.setCurrentRow(row);
+      },
+      handleCurrentChange(val) {
+        this.currentRow = val;
+      }      
     }  
   }
 </script>

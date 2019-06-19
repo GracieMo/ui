@@ -16,13 +16,14 @@
             <el-col :span="2">
                 <el-button type="primary" style="width:100%; text-align:center; padding:12px 12px" @click="nextStep()">下一步</el-button>
             </el-col>
-        </el-row>        
+        </el-row>
+        <S1cConselor /> 
     </div>
 </template>
 
 <script>
 export default {
-  name: 'ReservationTab',
+  name: 'ReserveStep',
 }
 </script>
 
@@ -31,23 +32,18 @@ export default {
   import Vue from 'vue';
   import axios from 'axios';
   import VueAxios from 'vue-axios';
-  import UnFReservationList from './unFReservationList.vue';
-  import FocReservationList from './focReservationList.vue'
+  import S1cConselor from './s1_chooseConselor.vue';
 
   Vue.use(VueAxios, axios)
 
   var tData = [];
   export default {
     components: {
-        UnFReservationList,
-        FocReservationList,
+        S1cConselor,
     },             
     data() {
       return { 
-        
-        /* 进入页面时默认进入未完成预约标签页 */
-        activeName: 'first',
-
+      
       }
       
     },created() {
@@ -55,7 +51,7 @@ export default {
     },
     methods: {
       /* 标签页变更 */
-      changerev(tab, event) {
+      nextStep() {
        
       },       
     }   
@@ -71,16 +67,18 @@ export default {
     border: solid 1px #F0F0F0;
             
   }
-  /* 标签页header */
+  /* 步骤条高度 */
   .el-steps--simple{
       height: 16px;
         
   }
+  /* 步骤条：已完成 字体与图标颜色 */
   .el-step__title.is-success,.el-step__head.is-success{
       color:#22B8EB;
       border-color:#22B8EB;
       font-weight:500;
   }
+  /* 步骤条：进行中 字体与图标颜色 */
   .el-step__title.is-process,.el-step__head.is-process{
       color:#22B8EB;
       border-color:#22B8EB;
