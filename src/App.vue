@@ -1,14 +1,14 @@
 <template>
-    <Navi/>
+    <Reserve/>
 </template>
 
 <script>
-import Navi from './components/reserve.vue'
+import Reserve from './components/reserve.vue'
 
 export default {
   name: 'app',
   components: {
-    Navi,
+    Reserve,
   }
 }
 </script>

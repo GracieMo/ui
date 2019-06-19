@@ -2,7 +2,7 @@
     <!--主体界面-->
     <div class='main'>
         <!--步骤条/返回/下一步按钮-->
-        <el-row gutter="20" style="margin:20px 20px 0 20px;">
+        <el-row :gutter="20" style="margin:20px 20px 0 20px;">
             <el-col :span="20">
                 <el-steps :active="0" finish-status="success" simple >
                     <el-step title="选择咨询师" ></el-step>

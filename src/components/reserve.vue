@@ -145,8 +145,7 @@ export default {
   import ReserveStep from './reserveStep.vue'
 
   Vue.use(VueAxios, axios)
-
-  var tData = [];
+  
   export default {
     components: {
         ReserveStep,
