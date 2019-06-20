@@ -41,6 +41,9 @@
                       :value="item.value">
                     </el-option>
                   </el-select>
+                </el-form-item>
+                <el-form-item> 
+                  {{conselorOnSelected.conselor_name}}
                 </el-form-item>                                                                                                            
             </el-form>
         </div>                                              
@@ -171,7 +174,8 @@ export default {
           value: '女',
           label: '女'
         }],
-        value: '',                                   
+        value: '', 
+        conselorOnSelected:'',                                  
       }
       
       
@@ -192,8 +196,8 @@ export default {
       },
       handleCurrentChange(val) {
         this.currentRow = val;
-        console.log(this.currentRow)
-        return this.currentRow;
+        this.conselorOnSelected=this.currentRow;
+        return conselorOnSelected;
       },
       remoteMethod(query) {
         if (query !== '') {
