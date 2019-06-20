@@ -2,11 +2,11 @@
     <!--主体界面-->
     <div class='main'>
         <!--步骤条/返回/下一步按钮-->
-        <el-row :gutter="20" style="margin:20px 20px 0 20px;">
+        <el-row :gutter="20" style="margin:20px 20px 0 15px;">
             <el-col :span="20">
                 <el-steps :active="0" finish-status="success" simple >
                     <el-step title="选择咨询师" ></el-step>
-                    <el-step title="选择咨询日期" ></el-step>
+                    <el-step title="选择咨询时间" ></el-step>
                     <el-step title="预约付款" ></el-step>
                 </el-steps>
             </el-col>
@@ -17,7 +17,7 @@
                 <el-button type="primary" style="width:100%; text-align:center; padding:12px 12px" @click="nextStep()">下一步</el-button>
             </el-col>
         </el-row>
-        <S1cConselor /> 
+        <S1chooseConselor /> 
     </div>
 </template>
 
@@ -32,14 +32,14 @@ export default {
   import Vue from 'vue';
   import axios from 'axios';
   import VueAxios from 'vue-axios';
-  import S1cConselor from './s1_chooseConselor.vue';
+  import S1chooseConselor from './s1_chooseConselor.vue';
 
   Vue.use(VueAxios, axios)
 
   var tData = [];
   export default {
     components: {
-        S1cConselor,
+        S1chooseConselor,
     },             
     data() {
       return { 
@@ -50,9 +50,9 @@ export default {
 
     },
     methods: {
-      /* 标签页变更 */
+      /* 下一步 */
       nextStep() {
-       
+
       },       
     }   
   }
@@ -70,7 +70,7 @@ export default {
   /* 步骤条高度 */
   .el-steps--simple{
       height: 16px;
-        
+      margin-bottom:30px;
   }
   /* 步骤条：已完成 字体与图标颜色 */
   .el-step__title.is-success,.el-step__head.is-success{

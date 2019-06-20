@@ -1,13 +1,13 @@
 <template>
     <div>
-        <!--Step1:选择咨询师 头部-->
+        <!--Step2:选择咨询时间 头部-->
         <div style="text-align:left;">
-            <span style="color:#373737; font-size:25px;margin-left:25px;">STEP1：选择咨询师</span>
+            <span style="color:#373737; font-size:25px;margin-left:25px;">STEP2：选择咨询时间</span>
         </div>
         <!--搜索栏-->
         <div style="float:left;text-align:left;margin:35px 35px 35px 25px">
             <el-form :inline="true" label-width="85px" :label-position="search_form_lable"  class="demo-form-inline" size="medium" style="width:100%">
-                <el-form-item label="咨询师姓名"  >
+                <el-form-item label="咨询师姓名" >
                 <el-input 
                     style="width:120px"
                     v-model="search_conselor_name"
@@ -23,7 +23,7 @@
                       </el-option>
                   </el-select> 
                 </el-form-item>
-                <el-form-item label="标签(擅长领域)" label-width="150px" lebel-position="left">
+                <el-form-item label="标签(擅长领域)" label-width="150px">
                   <el-select
                     v-model="search_conselor_tabs"
                     multiple
@@ -146,6 +146,7 @@ export default {
   export default {    
     data() {
       return {
+        radio: '1',
         /* 标签搜索框输入匹配选项 相关初始化 */
         options: [],
         allTabs: [],
@@ -186,14 +187,12 @@ export default {
       })      
     },
     methods: {
-      /* 表格单选行方法 */
       setCurrent(row) {
-        this.$refs.singleTable.setCurrentRow(row)           
+        this.$refs.singleTable.setCurrentRow(row)      
       },
       handleCurrentChange(val) {
         this.currentRow = val;
-        console.log(this.currentRow)
-        return this.currentRow;
+        console.log(val)
       },
       remoteMethod(query) {
         if (query !== '') {
@@ -218,7 +217,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-
+  [v-cloak]{
+    display: none;
+  }
   .el-form-item__label{
     margin:0 0 0 10px;
   }

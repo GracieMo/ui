@@ -158,7 +158,7 @@
                     width="220" 
                     label="操作" 
                     fixed="right">
-                    <template slot-scope="scope">
+                    <template slot-scope="scope" v-cloak>
                     <el-button v-if="scope.row.status!='已关闭'" type="primary" size="small">编辑</el-button>
                     <el-button v-if="scope.row.status!='已关闭'&& scope.row.status!='已完成'" type="danger" size="small">关闭</el-button>
                     </template>
@@ -311,6 +311,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+  [v-cloak]{
+    display: none;
+  }
   .el-form-item__label{
     margin:0 0 0 10px;
   }
