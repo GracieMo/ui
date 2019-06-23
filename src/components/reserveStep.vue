@@ -14,10 +14,16 @@
                 <el-button style="width:100%; text-align:center;">返回</el-button>
             </el-col>
             <el-col :span="2">
-                <el-button type="primary" style="width:100%; text-align:center; padding:12px 12px" @click="nextStep()">下一步</el-button>
+                <el-button 
+                  :disabled="name==null"   
+                  type="primary" 
+                  style="width:100%; text-align:center; padding:12px 12px" 
+                  @click="nextStep()">
+                  下一步
+                  </el-button>
             </el-col>
         </el-row>
-        <S1chooseConselor /> 
+        <S1chooseConselor v-on:getConselorOnSelected="getConselorOnSelected"/> 
     </div>
 </template>
 
@@ -43,7 +49,7 @@ export default {
     },             
     data() {
       return { 
-      
+        name:null,
       }
       
     },created() {
@@ -53,7 +59,11 @@ export default {
       /* 下一步 */
       nextStep() {
 
-      },       
+      },
+      getConselorOnSelected: function (conselorOnSelected) {
+        // conselorOnSelected就是子组件传过来的值
+        this.name = conselorOnSelected
+      }            
     }   
   }
 </script>

@@ -11,7 +11,7 @@
                 <el-input 
                     style="width:120px"
                     v-model="search_conselor_name"
-                    clearable/> 
+                    clearable /> 
                 </el-form-item>               
                 <el-form-item label="性别">
                   <el-select style="width:120px" v-model="search_conselor_sex" clearable placeholder="请选择">
@@ -43,7 +43,12 @@
                   </el-select>
                 </el-form-item>
                 <el-form-item> 
-                  {{conselorOnSelected.conselor_name}}
+                  <span v-if="conselorOnSelected != null" style="color:#F56C6C; font-size:20px; font-weight:500px; margin-left:10px;">
+                    已选咨询师：{{conselorOnSelected.conselor_name}}
+                  </span>
+                  <span v-else-if="conselorOnSelected == null" style="color:#F56C6C; font-size:20px; font-weight:500px; margin-left:10px;">
+                    未选择咨询师
+                  </span>
                 </el-form-item>                                                                                                            
             </el-form>
         </div>                                              
@@ -175,7 +180,7 @@ export default {
           label: '女'
         }],
         value: '', 
-        conselorOnSelected:'',                                  
+        conselorOnSelected:null,                            
       }
       
       
@@ -197,6 +202,7 @@ export default {
       handleCurrentChange(val) {
         this.currentRow = val;
         this.conselorOnSelected=this.currentRow;
+        this.$emit('getConselorOnSelected', this.conselorOnSelected)
         return conselorOnSelected;
       },
       remoteMethod(query) {
