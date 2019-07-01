@@ -5,7 +5,7 @@
             <span style="color:#373737; font-size:25px;margin-left:25px;">STEP1：选择咨询师</span>
         </div>
         <!--搜索栏-->
-        <div style="float:left;text-align:left;margin:35px 35px 35px 25px">
+        <div style="float:left;text-align:left;margin:35px 25px 35px 25px">
             <el-form :inline="true" label-width="85px" :label-position="search_form_lable"  class="demo-form-inline" size="medium" style="width:100%">
                 <el-form-item label="咨询师姓名"  >
                 <el-input 
@@ -13,7 +13,7 @@
                     v-model="search_conselor_name"
                     clearable /> 
                 </el-form-item>               
-                <el-form-item label="性别">
+                <el-form-item label="性别" label-width="50px">
                   <el-select style="width:120px" v-model="search_conselor_sex" clearable placeholder="请选择">
                       <el-option
                           v-for="item in sex"
@@ -23,7 +23,7 @@
                       </el-option>
                   </el-select> 
                 </el-form-item>
-                <el-form-item label="标签(擅长领域)" label-width="150px" lebel-position="left">
+                <el-form-item label="标签(擅长领域)" label-width="130px" lebel-position="left">
                   <el-select
                     v-model="search_conselor_tabs"
                     multiple
@@ -54,7 +54,7 @@
         </div>                                              
 
         <!--咨询师信息表格-->
-        <div style="margin:0 35px 0 25px; height:100%;" >
+        <div style="margin:0 25px 0 25px;" >
         <!--搜索栏方法-->
             <el-table
                 :data="reserveConselors.filter(data => (
@@ -68,6 +68,7 @@
                 ref="singleTable"             
                 highlight-current-row
                 @current-change="handleCurrentChange"
+                height="450px"
                 >
                 <!--step1：选择咨询室 表格主体-->
                 <el-table-column

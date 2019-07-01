@@ -3,8 +3,8 @@
   <el-container style="height:100%">
       <!--顶部导航-->
     <el-header style="text-align:right; height:65px;">
-      <img src="..\assets\img\4.png" style="padding-top:5px; float:left; width:55px; height:55px">
-      <img src="..\assets\img\11.png" style="padding:15px 0 0 5px; float:left; height:35px">
+      <img src="../assets/img/navilogo.png" style="padding-top:5px; float:left; width:55px; height:55px">
+      <img src="../assets/img/11.png" style="padding:15px 0 0 5px; float:left; height:35px">
       <span style="padding-right:5px; font-size:15px; color:#22B8EB">上海机构1</span>
       <span style="padding-right:30px; font-size:15px; color:#22B8EB">·丨</span>
       <div class="information">

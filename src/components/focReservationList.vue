@@ -7,7 +7,7 @@
             <i class="iconfont icon-jia" style="color:#22B8EB; font-size:25px; padding-left:5px; cursor:pointer;"></i>
         </div>
         <!--搜索栏-->
-        <div style="float:left;text-align:left;margin:35px 35px 35px 25px">
+        <div style="float:left;text-align:left;margin:35px 25px 35px 25px">
             <el-form label-width="85px" :label-position="search_form_lable"  size="medium">
                 <el-form-item label="咨询时间">
                 <el-date-picker
@@ -75,7 +75,7 @@
         </div>                                              
 
         <!--已完成/已关闭预约表格-->
-        <div style="margin:0 35px 0 25px; height:100%;" >
+        <div style="margin:0 25px 0 25px; height:100%;" >
         <!--搜索栏方法-->
             <el-table
                 :data="FOCreservationList.filter(data => (

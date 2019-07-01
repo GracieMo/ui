@@ -1,19 +1,19 @@
 <template>
     <div>
-        <!--Step2:选择咨询时间 头部-->
+        <!--Step1:选择咨询师 头部-->
         <div style="text-align:left;">
-            <span style="color:#373737; font-size:25px;margin-left:25px;">STEP2：选择咨询时间</span>
+            <span style="color:#373737; font-size:25px;margin-left:25px;">STEP1：选择咨询师</span>
         </div>
         <!--搜索栏-->
-        <div style="float:left;text-align:left;margin:35px 35px 35px 25px">
+        <div style="float:left;text-align:left;margin:35px 25px 35px 25px">
             <el-form :inline="true" label-width="85px" :label-position="search_form_lable"  class="demo-form-inline" size="medium" style="width:100%">
-                <el-form-item label="咨询师姓名" >
+                <el-form-item label="咨询师姓名"  >
                 <el-input 
                     style="width:120px"
                     v-model="search_conselor_name"
-                    clearable/> 
+                    clearable /> 
                 </el-form-item>               
-                <el-form-item label="性别">
+                <el-form-item label="性别" label-width="50px">
                   <el-select style="width:120px" v-model="search_conselor_sex" clearable placeholder="请选择">
                       <el-option
                           v-for="item in sex"
@@ -23,7 +23,7 @@
                       </el-option>
                   </el-select> 
                 </el-form-item>
-                <el-form-item label="标签(擅长领域)" label-width="150px">
+                <el-form-item label="标签(擅长领域)" label-width="130px" lebel-position="left">
                   <el-select
                     v-model="search_conselor_tabs"
                     multiple
@@ -41,12 +41,20 @@
                       :value="item.value">
                     </el-option>
                   </el-select>
+                </el-form-item>
+                <el-form-item> 
+                  <span v-if="conselorOnSelected != null" style="color:#F56C6C; font-size:20px; font-weight:500px; margin-left:10px;">
+                    已选咨询师：{{conselorOnSelected.conselor_name}}
+                  </span>
+                  <span v-else-if="conselorOnSelected == null" style="color:#F56C6C; font-size:20px; font-weight:500px; margin-left:10px;">
+                    未选择咨询师
+                  </span>
                 </el-form-item>                                                                                                            
             </el-form>
         </div>                                              
 
         <!--咨询师信息表格-->
-        <div style="margin:0 35px 0 25px; height:100%;" >
+        <div style="margin:0 25px 0 25px; height:100%;" >
         <!--搜索栏方法-->
             <el-table
                 :data="reserveConselors.filter(data => (
@@ -146,7 +154,6 @@ export default {
   export default {    
     data() {
       return {
-        radio: '1',
         /* 标签搜索框输入匹配选项 相关初始化 */
         options: [],
         allTabs: [],
@@ -172,7 +179,8 @@ export default {
           value: '女',
           label: '女'
         }],
-        value: '',                                   
+        value: '', 
+        conselorOnSelected:null,                            
       }
       
       
@@ -187,12 +195,15 @@ export default {
       })      
     },
     methods: {
+      /* 表格单选行方法 */
       setCurrent(row) {
-        this.$refs.singleTable.setCurrentRow(row)      
+        this.$refs.singleTable.setCurrentRow(row)           
       },
       handleCurrentChange(val) {
         this.currentRow = val;
-        console.log(val)
+        this.conselorOnSelected=this.currentRow;
+        this.$emit('getConselorOnSelected', this.conselorOnSelected)
+        return conselorOnSelected;
       },
       remoteMethod(query) {
         if (query !== '') {
@@ -217,9 +228,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-  [v-cloak]{
-    display: none;
-  }
+
   .el-form-item__label{
     margin:0 0 0 10px;
   }

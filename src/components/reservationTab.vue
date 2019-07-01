@@ -3,12 +3,12 @@
     <div class='main'>
         <!--标签页-->
         <el-tabs v-model="activeName" @tab-click="changerev"> 
-        <el-tab-pane label="未完成预约" name="first">
-            <UnFReservationList />      
-        </el-tab-pane>
-        <el-tab-pane label="已完成/已关闭预约" name="second">
-            <FocReservationList />
-        </el-tab-pane>
+          <el-tab-pane label="未完成预约" name="first">
+              <UnFReservationList />      
+          </el-tab-pane>
+          <el-tab-pane label="已完成/已关闭预约" name="second">
+              <FocReservationList />
+          </el-tab-pane>
         </el-tabs>
     </div>
 </template>
@@ -66,7 +66,7 @@ export default {
   }
   /* 标签页header */
   .el-tabs__header{
-    margin:10px 35px 30px 0;
+    margin:10px 25px 30px 0;
 
   }
   /* 标签页文字：未选中时 */
@@ -105,7 +105,7 @@ export default {
     height:2px;
     background-color: #F0F0F0;
     z-index:1;
-    right:35px;
+    right:25px;
   }
 
 

@@ -2,22 +2,21 @@
     <!--主体界面-->
     <div class='main'>
         <!--步骤条/返回/下一步按钮-->
-        <el-row :gutter="20" style="margin:20px 20px 0 15px;">
-            <el-col :span="20">
-                <el-steps :active="0" finish-status="success" simple >
+        <el-row :gutter="30" style="margin:20px 25px 0 25px; ">
+            <el-col :span="20" style="padding:0 0 0 0; ">
+                <el-steps :active="0" finish-status="success" simple>
                     <el-step title="选择咨询师" ></el-step>
                     <el-step title="选择咨询时间" ></el-step>
                     <el-step title="预约付款" ></el-step>
                 </el-steps>
             </el-col>
-            <el-col :span="2">
-                <el-button style="width:100%; text-align:center;">返回</el-button>
+            <el-col :span="2" style="padding:0 0 0 0; ">
+                <el-button >返回</el-button>
             </el-col>
-            <el-col :span="2">
+            <el-col :span="2" style="padding:0 0 0 0; ">
                 <el-button 
-                  :disabled="name==null"   
+                  :disabled="conselorOnSelected==null"   
                   type="primary" 
-                  style="width:100%; text-align:center; padding:12px 12px" 
                   @click="nextStep()">
                   下一步
                   </el-button>
@@ -50,6 +49,7 @@ export default {
     data() {
       return { 
         name:null,
+        conselorOnSelected:null,
       }
       
     },created() {
@@ -62,7 +62,7 @@ export default {
       },
       getConselorOnSelected: function (conselorOnSelected) {
         // conselorOnSelected就是子组件传过来的值
-        this.name = conselorOnSelected
+        this.conselorOnSelected = conselorOnSelected
       }            
     }   
   }

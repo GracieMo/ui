@@ -4,13 +4,13 @@
             <el-row class='Loginback'>
                 <el-col :span="2"></el-col>
                 <el-col :span="10">
-                    <img  class="Loginimg" src="..\assets\img\login.png">
+                    <img  class="Loginimg" src="../assets/img/login.png">
                 </el-col>
                 <el-col :span="10">
                     <div class="Loginpanel">
                     </div>
                     <div>
-                        <img  class="Loginicon" src="..\assets\img\loginlogo.png">
+                        <img  class="Loginicon" src="../assets/img/loginlogo.png">
                     </div>
                     <div>
                         <input 
