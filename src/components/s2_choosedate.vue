@@ -7,11 +7,14 @@
         <!--搜索栏-->
         <div style="float:left;text-align:left;margin:35px 25px 35px 25px">
             <el-form :inline="true" label-width="85px" :label-position="search_form_lable"  class="demo-form-inline" size="medium" style="width:100%">
-                <el-form-item label="咨询师姓名"  >
-                <el-input 
-                    style="width:120px"
-                    v-model="search_conselor_name"
-                    clearable /> 
+                <el-form-item label="请选择一个或多个咨询日期"  >
+                  <div class="block">
+                    <el-date-picker
+                      type="dates"
+                      v-model="value1"
+                      placeholder="选择一个或多个日期">
+                    </el-date-picker>
+                  </div>
                 </el-form-item>               
                 <el-form-item label="性别" label-width="50px">
                   <el-select style="width:100px" v-model="search_conselor_sex" clearable placeholder="请选择">
@@ -138,7 +141,7 @@
 
 <script>
 export default {
-  name: 'S1cConselor',
+  name: 'S2cDate',
 }
 </script>
 
@@ -156,6 +159,7 @@ export default {
     data() {
       return {
         /* 标签搜索框输入匹配选项 相关初始化 */
+        value1:'',
         options: [],
         allTabs: [],
         loading: false,   
