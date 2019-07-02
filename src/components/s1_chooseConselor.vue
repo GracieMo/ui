@@ -14,7 +14,7 @@
                     clearable /> 
                 </el-form-item>               
                 <el-form-item label="性别" label-width="50px">
-                  <el-select style="width:120px" v-model="search_conselor_sex" clearable placeholder="请选择">
+                  <el-select style="width:100px" v-model="search_conselor_sex" clearable placeholder="请选择">
                       <el-option
                           v-for="item in sex"
                           :key="item.value"
@@ -33,7 +33,7 @@
                     placeholder="请输入关键词"
                     :remote-method="remoteMethod"
                     :loading="loading"
-                    style="width:400px">
+                    style="width:370px">
                     <el-option
                       v-for="item in options"
                       :key="item.value"

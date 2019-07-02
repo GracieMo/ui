@@ -1,8 +1,8 @@
 <template>
     <div>
-        <!--Step1:选择咨询师 头部-->
+        <!--Step2:选择咨询时间 头部-->
         <div style="text-align:left;">
-            <span style="color:#373737; font-size:25px;margin-left:25px;">STEP1：选择咨询师</span>
+            <span style="color:#373737; font-size:25px;margin-left:25px;">STEP2：选择咨询时间</span>
         </div>
         <!--搜索栏-->
         <div style="float:left;text-align:left;margin:35px 25px 35px 25px">
@@ -14,7 +14,7 @@
                     clearable /> 
                 </el-form-item>               
                 <el-form-item label="性别" label-width="50px">
-                  <el-select style="width:120px" v-model="search_conselor_sex" clearable placeholder="请选择">
+                  <el-select style="width:100px" v-model="search_conselor_sex" clearable placeholder="请选择">
                       <el-option
                           v-for="item in sex"
                           :key="item.value"
@@ -33,7 +33,7 @@
                     placeholder="请输入关键词"
                     :remote-method="remoteMethod"
                     :loading="loading"
-                    style="width:400px">
+                    style="width:370px">
                     <el-option
                       v-for="item in options"
                       :key="item.value"
@@ -54,7 +54,7 @@
         </div>                                              
 
         <!--咨询师信息表格-->
-        <div style="margin:0 25px 0 25px; height:100%;" >
+        <div style="margin:0 25px 0 25px;" >
         <!--搜索栏方法-->
             <el-table
                 :data="reserveConselors.filter(data => (
@@ -68,6 +68,7 @@
                 ref="singleTable"             
                 highlight-current-row
                 @current-change="handleCurrentChange"
+                height="450px"
                 >
                 <!--step1：选择咨询室 表格主体-->
                 <el-table-column

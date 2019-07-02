@@ -107,19 +107,19 @@
     <!--左侧导航-->
       <el-menu default-active="1" class="el-menu-vertical-demo">  
         <el-menu-item index="1">
-          <i class="iconfont icon-qianyue" style="font-size:20px; padding-right:20px; padding-left:30px;"></i>
+          <i class="iconfont icon-qianyue" style="font-size:20px; padding-right:15%; padding-left:15%"></i>
           <span slot="title">预约</span>
         </el-menu-item>
         <el-menu-item index="2">
-          <i class="iconfont icon-renshutongji" style="font-size:20px; padding-right:20px; padding-left:30px;"></i>
+          <i class="iconfont icon-renshutongji" style="font-size:20px; padding-right:15%; padding-left:15%"></i>
           <span slot="title">咨询师</span>
         </el-menu-item>
         <el-menu-item index="3">
-          <i class="iconfont icon-renshu" style="font-size:20px; padding-right:20px; padding-left:30px;"></i>
+          <i class="iconfont icon-renshu" style="font-size:20px; padding-right:15%; padding-left:15%"></i>
           <span slot="title">来访者</span>
         </el-menu-item>
         <el-menu-item index="4">
-          <i class="iconfont icon-huiyishi" style="font-size:20px; padding-right:20px; padding-left:30px;"></i>
+          <i class="iconfont icon-huiyishi" style="font-size:20px; padding-right:15%; padding-left:15%"></i>
           <span slot="title">咨询室</span>
         </el-menu-item>                     
       </el-menu>      
