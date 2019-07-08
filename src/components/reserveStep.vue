@@ -23,7 +23,7 @@
             </el-col>
         </el-row>
         <S1chooseConselor v-if="activestep=='0'" v-on:getConselorOnSelected="getConselorOnSelected"/> 
-        <S2chooseDate v-if="activestep=='1'" /> 
+        <S2chooseTime v-if="activestep=='1'" /> 
     </div>
 </template>
 
@@ -39,7 +39,7 @@ export default {
   import axios from 'axios';
   import VueAxios from 'vue-axios';
   import S1chooseConselor from './s1_chooseConselor.vue';
-  import S2chooseDate from './s2_chooseDate.vue';
+  import S2chooseTime from './s2_chooseTime.vue';
 
   Vue.use(VueAxios, axios)
 
@@ -47,7 +47,7 @@ export default {
   export default {
     components: {
         S1chooseConselor,
-        S2chooseDate,
+        S2chooseTime,
     },             
     data() {
       return { 

@@ -6,13 +6,16 @@
         </div>
         <!--搜索栏-->
         <div style="float:left;text-align:left;margin:35px 25px 35px 25px">
-            <el-form :inline="true" label-width="85px" :label-position="search_form_lable"  class="demo-form-inline" size="medium" style="width:100%">
+            <el-form :inline="true" label-width="180px" :label-position="search_form_lable"  class="demo-form-inline" size="medium" style="width:100%">
                 <el-form-item label="请选择一个或多个咨询日期"  >
                   <div class="block">
                     <el-date-picker
                       type="dates"
                       v-model="value1"
-                      placeholder="选择一个或多个日期">
+                      placeholder="选择一个或多个日期"
+                      style="width:370px"
+                      @change="setLimit(value1)"
+                      :picker-options="pickerOptions0">
                     </el-date-picker>
                   </div>
                 </el-form-item>               
@@ -25,25 +28,6 @@
                           :value="item.value">
                       </el-option>
                   </el-select> 
-                </el-form-item>
-                <el-form-item label="标签(擅长领域)" label-width="130px" lebel-position="left">
-                  <el-select
-                    v-model="search_conselor_tabs"
-                    multiple
-                    filterable
-                    remote
-                    reserve-keyword
-                    placeholder="请输入关键词"
-                    :remote-method="remoteMethod"
-                    :loading="loading"
-                    style="width:370px">
-                    <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                    </el-option>
-                  </el-select>
                 </el-form-item>
                 <el-form-item> 
                   <span v-if="conselorOnSelected != null" style="color:#F56C6C; font-size:20px; font-weight:500px; margin-left:10px;">
@@ -158,11 +142,19 @@ export default {
   export default {    
     data() {
       return {
-        /* 标签搜索框输入匹配选项 相关初始化 */
+        /* 多个咨询日期搜索框输入内容 初始化 */
         value1:'',
-        options: [],
-        allTabs: [],
-        loading: false,   
+        pickerOptions0: { 
+          disabledDate(time) {
+            var lt = time.getTime() < Date.now();
+            const t = new Date();
+            t.setTime(t.getTime() + 3600 * 1000 * 24 * 14);            
+            // var t = new Date();
+            // t.setDate(t.getDay() + 14);
+            var gt = time.getDate() > t.getDate();
+            return (lt || gt);//如果没有后面的-8.64e7就是不可以选择今天的 
+          }
+        },
 
         /* 其他输入框内容初始化 */
         search_form_lable:'right',
@@ -200,6 +192,9 @@ export default {
       })      
     },
     methods: {
+      setLimit(value1){
+        console.log(typeof(value1));
+      },
       /* 表格单选行方法 */
       setCurrent(row) {
         this.$refs.singleTable.setCurrentRow(row)           

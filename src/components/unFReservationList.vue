@@ -75,7 +75,7 @@
         </div>                                              
 
         <!--未完成预约表格-->
-        <div style="margin:0 25px 0 25px; height:100%;" >
+        <div style="margin:0 25px 0 25px; " >
         <!--搜索栏方法-->
             <el-table
                 :data="UNFreservation.filter(data => (
@@ -97,6 +97,7 @@
                 border
                 :default-sort = "{prop: 'scope', order: 'descending'}"
                 stripe
+                height="350px"
                 >
                 <!--未完成预约表格主体-->
                 <el-table-column

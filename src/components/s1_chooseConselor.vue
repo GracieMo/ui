@@ -33,6 +33,7 @@
                     placeholder="请输入关键词"
                     :remote-method="remoteMethod"
                     :loading="loading"
+                    multiple-limit=3
                     style="width:370px">
                     <el-option
                       v-for="item in options"
