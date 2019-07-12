@@ -6,23 +6,22 @@
         </div>
         <!--搜索栏-->
         <div style="float:left;text-align:left;margin:35px 25px 35px 25px">
-            <el-form :inline="true" label-width="180px" :label-position="search_form_lable"  class="demo-form-inline" size="medium" style="width:100%">
-                <el-form-item label="请选择一个或多个咨询日期"  >
+            <el-form :inline="true" label-width="220px" :label-position="search_form_lable"  class="demo-form-inline" size="medium" style="width:100%">
+                <el-form-item label="请选择最多3个您期望的咨询日期"  >
                   <div class="block">
                     <el-date-picker
                       type="dates"
                       v-model="value1"
                       placeholder="选择一个或多个日期"
-                      style="width:370px"
-                      @click="setLimit()"
+                      style="width:320px"
                       :picker-options="pickerOptions">
                     </el-date-picker>
                   </div>
                 </el-form-item>               
-                <el-form-item label="性别" label-width="50px">
-                  <el-select style="width:100px" v-model="search_conselor_sex" clearable placeholder="请选择">
+                <el-form-item label="咨询类型" label-width="80px">
+                  <el-select style="width:100px" v-model="search_reserve_type" clearable placeholder="请选择">
                       <el-option
-                          v-for="item in sex"
+                          v-for="item in reservetype"
                           :key="item.value"
                           :label="item.label"
                           :value="item.value">
@@ -144,11 +143,7 @@ export default {
       return {
         /* 多个咨询日期搜索框输入内容 初始化 */
         value1:'',
-        pickerOptions: { 
-          onSelect(){
-            this.setLimit();
-          },
-              
+        pickerOptions: {              
           disabledDate(time) {
             // 设置可选择的日期为今天之后的一个月内
             let curDate = (new Date()).getTime()
@@ -156,16 +151,6 @@ export default {
             let day = 15 * 24 * 3600 * 1000
             let dateRegion = curDate + day
             return time.getTime() < Date.now() || time.getTime() > dateRegion
-            // 设置选择的日期小于当前的日期,小于返回true,日期不可选
-            // return time.getTime() < Date.now() - 8.64e7    
-
-            // var lt = time.getTime() < Date.now();
-            // const t = new Date();
-            // t.setTime(t.getTime() + 3600 * 1000 * 24 * 14);            
-            // // var t = new Date();
-            // // t.setDate(t.getDay() + 14);
-            // var gt = time.getDate() > t.getDate();
-            // return (lt || gt);//如果没有后面的-8.64e7就是不可以选择今天的 
           }
 
         },
@@ -183,19 +168,37 @@ export default {
         conselorTabs:[],
 
         /* 性别下拉框选项 */
-        sex: [{
-          value: '男',
-          label: '男',
+        reservetype: [{
+          value: '1对1面询',
+          label: '1对1面询',
         }, {
-          value: '女',
-          label: '女'
+          value: '电话咨询',
+          label: '电话咨询'
         }],
         value: '', 
         conselorOnSelected:null,                            
       }
-      
-      
-    },created() {
+    },
+    watch: {
+      value1: {
+        handler(newValue, oldValue) {
+          if (newValue != null && newValue.length >= 3) {
+            console.log(newValue[0]- 8.64e7+newValue[0]);
+            this.pickerOptions.disabledDate=(time)=>{
+              return !(time.getTime() == newValue[0].getTime()||time.getTime() == newValue[1].getTime()||time.getTime() == newValue[2].getTime())          
+            }
+          }else{
+            this.pickerOptions.disabledDate=(time)=>{
+              let curDate = (new Date()).getTime()
+              let day = 15 * 24 * 3600 * 1000
+              let dateRegion = curDate + day
+              return time.getTime() < Date.now() || time.getTime() > dateRegion
+            }            
+          }
+        }
+      }
+    },  
+    created() {
       /* 获取未完成预约后台信息 */
       this.axios.get('http://106.13.143.112:15000/conselors').then((response) => {
         this.reserveConselors = response.data;
@@ -206,9 +209,6 @@ export default {
       })      
     },
     methods: {
-      setLimit(){
-        console.log('123')
-      },
       /* 表格单选行方法 */
       setCurrent(row) {
         this.$refs.singleTable.setCurrentRow(row)           
@@ -218,24 +218,7 @@ export default {
         this.conselorOnSelected=this.currentRow;
         this.$emit('getConselorOnSelected', this.conselorOnSelected)
         return conselorOnSelected;
-      },
-      remoteMethod(query) {
-        if (query !== '') {
-          this.allTabs = this.conselorTabs.map(item => {
-            return { value: item, label: item };
-          });          
-          this.loading = true;
-          setTimeout(() => {
-            this.loading = false;
-            this.options = this.allTabs.filter(item => {
-              return item.label.toLowerCase()
-                .indexOf(query.toLowerCase()) > -1;
-            });
-          }, 200);
-        } else {
-          this.options = [];
-        }
-      },   
+      }, 
     }  
   }
 </script>
