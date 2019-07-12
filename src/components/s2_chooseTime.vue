@@ -14,8 +14,8 @@
                       v-model="value1"
                       placeholder="选择一个或多个日期"
                       style="width:370px"
-                      @change="setLimit(value1)"
-                      :picker-options="pickerOptions0">
+                      @click="setLimit()"
+                      :picker-options="pickerOptions">
                     </el-date-picker>
                   </div>
                 </el-form-item>               
@@ -144,16 +144,30 @@ export default {
       return {
         /* 多个咨询日期搜索框输入内容 初始化 */
         value1:'',
-        pickerOptions0: { 
+        pickerOptions: { 
+          onSelect(){
+            this.setLimit();
+          },
+              
           disabledDate(time) {
-            var lt = time.getTime() < Date.now();
-            const t = new Date();
-            t.setTime(t.getTime() + 3600 * 1000 * 24 * 14);            
-            // var t = new Date();
-            // t.setDate(t.getDay() + 14);
-            var gt = time.getDate() > t.getDate();
-            return (lt || gt);//如果没有后面的-8.64e7就是不可以选择今天的 
+            // 设置可选择的日期为今天之后的一个月内
+            let curDate = (new Date()).getTime()
+            // 这里算出一个月的毫秒数,这里使用30的平均值,实际中应根据具体的每个月有多少天计算
+            let day = 15 * 24 * 3600 * 1000
+            let dateRegion = curDate + day
+            return time.getTime() < Date.now() || time.getTime() > dateRegion
+            // 设置选择的日期小于当前的日期,小于返回true,日期不可选
+            // return time.getTime() < Date.now() - 8.64e7    
+
+            // var lt = time.getTime() < Date.now();
+            // const t = new Date();
+            // t.setTime(t.getTime() + 3600 * 1000 * 24 * 14);            
+            // // var t = new Date();
+            // // t.setDate(t.getDay() + 14);
+            // var gt = time.getDate() > t.getDate();
+            // return (lt || gt);//如果没有后面的-8.64e7就是不可以选择今天的 
           }
+
         },
 
         /* 其他输入框内容初始化 */
@@ -192,8 +206,8 @@ export default {
       })      
     },
     methods: {
-      setLimit(value1){
-        console.log(typeof(value1));
+      setLimit(){
+        console.log('123')
       },
       /* 表格单选行方法 */
       setCurrent(row) {

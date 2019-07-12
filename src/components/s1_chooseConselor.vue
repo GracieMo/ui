@@ -2,7 +2,7 @@
     <div>
         <!--Step1:选择咨询师 头部-->
         <div style="text-align:left;">
-            <span style="color:#373737; font-size:25px;margin-left:25px;">STEP1：选择咨询师</span>
+          <span style="color:#373737; font-size:25px;margin-left:25px;">STEP1：选择咨询师</span>
         </div>
         <!--搜索栏-->
         <div style="float:left;text-align:left;margin:35px 25px 35px 25px">
@@ -28,15 +28,12 @@
                     v-model="search_conselor_tabs"
                     multiple
                     filterable
-                    remote
-                    reserve-keyword
+                    clearable                
                     placeholder="请输入关键词"
-                    :remote-method="remoteMethod"
-                    :loading="loading"
                     multiple-limit=3
                     style="width:370px">
                     <el-option
-                      v-for="item in options"
+                      v-for="item in allTabs"
                       :key="item.value"
                       :label="item.label"
                       :value="item.value">
@@ -71,7 +68,7 @@
                 @current-change="handleCurrentChange"
                 height="450px"
                 >
-                <!--step1：选择咨询室 表格主体-->
+                <!--step1：选择咨询师 表格主体-->
                 <el-table-column
                     type="index"
                     width="50"
@@ -157,7 +154,7 @@ export default {
     data() {
       return {
         /* 标签搜索框输入匹配选项 相关初始化 */
-        options: [],
+        options :[],
         allTabs: [],
         loading: false,   
 
@@ -187,43 +184,49 @@ export default {
       
       
     },created() {
-      /* 获取未完成预约后台信息 */
+      /* 获取全部有效咨询师 */
       this.axios.get('http://106.13.143.112:15000/conselors').then((response) => {
         this.reserveConselors = response.data;
       }),
       /* 获取所有咨询师标签 */
       this.axios.get('http://106.13.143.112:15000/conselors/tabs').then((response) => {
         this.conselorTabs = response.data;
-      })      
+        this.allTabs = this.conselorTabs.map(item => {
+                return { value: item, label: item };
+              });        
+      })    
+
     },
     methods: {
       /* 表格单选行方法 */
       setCurrent(row) {
         this.$refs.singleTable.setCurrentRow(row)           
       },
+      /* 单选行后获取当前行咨询师方法 */
       handleCurrentChange(val) {
         this.currentRow = val;
         this.conselorOnSelected=this.currentRow;
         this.$emit('getConselorOnSelected', this.conselorOnSelected)
         return conselorOnSelected;
       },
-      remoteMethod(query) {
-        if (query !== '') {
-          this.allTabs = this.conselorTabs.map(item => {
-            return { value: item, label: item };
-          });          
-          this.loading = true;
-          setTimeout(() => {
-            this.loading = false;
-            this.options = this.allTabs.filter(item => {
-              return item.label.toLowerCase()
-                .indexOf(query.toLowerCase()) > -1;
-            });
-          }, 200);
-        } else {
-          this.options = [];
-        }
-      },   
+      /* 标签输入匹配 */
+      // remoteMethod(query) {
+      //   if (query !== '') {
+      //     // this.allTabs = this.conselorTabs.map(item => {
+      //     //   return { value: item, label: item };
+      //     // });          
+      //     this.loading = true;
+      //     setTimeout(() => {
+      //       this.loading = false;
+      //       this.allTabs = this.allTabs.filter(item => {
+      //         return item.label.toLowerCase()
+      //           .indexOf(query.toLowerCase()) > -1;
+      //       });
+      //     }, 200);
+      //   } else {
+      //     this.options = [];
+      //   }
+      // },   
     }  
   }
 </script>
