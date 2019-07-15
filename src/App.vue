@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Reserve from './components/reserve.vue'
+import Reserve from './components/navi.vue'
 
 export default {
   name: 'app',

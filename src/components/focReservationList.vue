@@ -128,7 +128,7 @@
                 <el-table-column
                     prop="entry_pereson"
                     label="助理"
-                    width="150">
+                    width="120">
                 </el-table-column>                                                                                   
                 <el-table-column
                     prop="visitor_name"
