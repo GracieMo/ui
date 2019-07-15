@@ -19,9 +19,9 @@
                   </div>
                 </el-form-item>               
                 <el-form-item label="咨询类型" label-width="80px">
-                  <el-select style="width:100px" v-model="search_reserve_type" clearable placeholder="请选择">
+                  <el-select style="width:120px" v-model="search_reserve_type" clearable placeholder="请选择">
                       <el-option
-                          v-for="item in reservetype"
+                          v-for="item in reservetypes"
                           :key="item.value"
                           :label="item.label"
                           :value="item.value">
@@ -157,7 +157,7 @@ export default {
 
         /* 其他输入框内容初始化 */
         search_form_lable:'right',
-        search_conselor_name:'',
+        search_reserve_type:'',
         search_conselor_sex:'',
         search_conselor_tabs:'', 
         
@@ -168,7 +168,7 @@ export default {
         conselorTabs:[],
 
         /* 性别下拉框选项 */
-        reservetype: [{
+        reservetypes: [{
           value: '1对1面询',
           label: '1对1面询',
         }, {
