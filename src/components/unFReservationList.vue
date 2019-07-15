@@ -23,53 +23,53 @@
             </el-form>
             <el-form :inline="true" label-width="85px" :label-position="search_form_lable"  class="demo-form-inline" size="medium">
                 <el-form-item label="咨询室">
-                <el-select style="width:120px" v-model="search_room" clearable placeholder="请选择">
-                    <el-option-group 
-                    v-for="group in rooms"
-                    :key="group.label"
-                    :label="group.label">
-                    <el-option
-                        v-for="item in group.options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                    </el-option>
-                    </el-option-group>
-                </el-select> 
+                  <el-select style="width:120px" v-model="search_room" clearable placeholder="请选择">
+                      <el-option-group 
+                      v-for="group in rooms"
+                      :key="group.label"
+                      :label="group.label">
+                        <el-option
+                            v-for="item in group.options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                      </el-option-group>
+                  </el-select> 
                 </el-form-item>
                 <el-form-item label="咨询师姓名" >
-                <el-input 
-                    style="width:120px"
-                    v-model="search_conselor"
-                    clearable/> 
+                  <el-input 
+                      style="width:120px"
+                      v-model="search_conselor"
+                      clearable/> 
                 </el-form-item>
                 <el-form-item label="助理姓名">
-                <el-input
-                    style="width:120px"
-                    v-model="search_entry_pereson"
-                    clearable/> 
+                  <el-input
+                      style="width:120px"
+                      v-model="search_entry_pereson"
+                      clearable/> 
                 </el-form-item>
                 <el-form-item label="来访者姓名">
-                <el-input
-                    style="width:120px"
-                    v-model="search_visitor_name"
-                    clearable/>  
+                  <el-input
+                      style="width:120px"
+                      v-model="search_visitor_name"
+                      clearable/>  
                 </el-form-item> 
                 <el-form-item label="来访者电话">
-                <el-input
-                    style="width:120px"
-                    v-model="search_visitor_phone"
-                    clearable/>  
+                  <el-input
+                      style="width:120px"
+                      v-model="search_visitor_phone"
+                      clearable/>  
                 </el-form-item>
                 <el-form-item label="预约状态">
-                <el-select style="width:120px" v-model="search_status" placeholder="请选择" clearable>
-                    <el-option
-                    v-for="item in status"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                    </el-option>
-                </el-select>
+                  <el-select style="width:120px" v-model="search_status" placeholder="请选择" clearable>
+                      <el-option
+                      v-for="item in status"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                      </el-option>
+                  </el-select>
                 </el-form-item>                                                                                                               
             </el-form>
         </div>                                              
@@ -156,7 +156,7 @@
                     width="100">
                 </el-table-column>                    
                 <el-table-column 
-                    width="220" 
+                    width="200" 
                     label="操作" 
                     fixed="right">
                     <template slot-scope="scope" v-cloak>
