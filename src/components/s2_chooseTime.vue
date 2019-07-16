@@ -5,7 +5,7 @@
             <span style="color:#373737; font-size:25px;margin-left:25px;">STEP2：选择咨询时间</span>
         </div>
         <!--搜索栏-->
-        <div style="float:left;text-align:left;margin:35px 25px 35px 25px; width:100%">
+        <div style="float:left;text-align:left;margin:35px 25px 20px 25px; width:100%">
             <el-form :inline="true" label-width="220px" :label-position="search_form_lable"  class="demo-form-inline" size="medium">
                 <el-form-item label="请选择最多3个您期望的咨询日期"  >
                   <div class="block">
@@ -58,7 +58,7 @@
                 :data="conselor_available_time"
                 height="350"
                 border
-                style="width:270px"
+                style="width:305px"
                 ref="singleTable"
                 highlight-current-row
                 @current-change="selectConselorTimes">
@@ -66,11 +66,11 @@
                   <el-table-column
                     prop="date"
                     label="日期"
-                    width="150">
+                    width="170">
                   </el-table-column>
                   <el-table-column
                     label="时间"
-                    width="119">
+                    width="130">
                       <template slot-scope="scope">
                       <span>
                           {{ scope.row.time_start+'&nbsp;-&nbsp;'+scope.row.time_end}}
@@ -116,14 +116,14 @@
           <el-form-item>               
             <el-table
               :data="tableData2"
-              height="200"
+              height="205"
               border
               style="width:482px">
               <el-table-column label="请确定您的咨询时间">
                 <el-table-column
                     prop="reserveDateAndRoomONselected"
                     label="咨询日期与地点"
-                    width="200">               
+                    width="202">               
                 </el-table-column>
                 <el-table-column
                     prop="reserveTime"
